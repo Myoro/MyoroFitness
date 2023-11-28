@@ -18,7 +18,14 @@ final ThemeData dark = ThemeData(
     bodyMedium: TextStyle(
       fontFamily: "Ubuntu",
       fontStyle:  FontStyle.normal,
-      color:      Color(0xFFEDE6D6)
+      color:      Color(0xFFEDE6D6),
+      fontSize:   16
+    ),
+    titleMedium: TextStyle(
+      fontFamily: "Ubuntu",
+      fontStyle:  FontStyle.normal,
+      color:      Color(0xFFEDE6D6),
+      fontSize:   20
     )
   )
 );
@@ -41,7 +48,14 @@ final ThemeData light = ThemeData(
     bodyMedium: TextStyle(
       fontFamily: "Ubuntu",
       fontStyle:  FontStyle.normal,
-      color:      Color(0xFF181818)
+      color:      Color(0xFF181818),
+      fontSize:   16
+    ),
+    titleMedium: TextStyle(
+      fontFamily: "Ubuntu",
+      fontStyle:  FontStyle.normal,
+      color:      Color(0xFF181818),
+      fontSize:   20
     )
   )
 );

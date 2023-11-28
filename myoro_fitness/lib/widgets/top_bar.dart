@@ -10,8 +10,11 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<DarkModeBloc, DarkModeState>(
       builder: (context, darkModeState) {
+        final ThemeData theme = Theme.of(context);
+
         return AppBar(
           title: Row(
             children: [
@@ -20,6 +23,8 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                 width:  40,
                 height: 40
               ),
+              const Spacer(),
+              Text("365 Days", style: theme.textTheme.titleMedium),
               const Spacer(),
               InkWell(
                 onTap: () => BlocProvider.of<DarkModeBloc>(context).add(ToggleDarkModeEvent()),
