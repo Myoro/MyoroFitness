@@ -96,19 +96,30 @@ class CaloriesPage extends StatelessWidget {
                         
                         // Calorie summary
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "Recommended: 1234",
-                              style:    theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis
-                            ),
-                            const Spacer(),
-                            Text(
-                              "${mockMeals[i]} Total: 12345",
-                              style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis
+                            if(MediaQuery.of(context).size.width > 350)
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Recommended: 1234",
+                                      style:    theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary)
+                                    ),
+                                    const Spacer(),
+                                  ]
+                                ),
+                              ),
+                            Expanded(
+                              child: Align(
+                                alignment: (MediaQuery.of(context).size.width > 350) ? Alignment.centerRight : Alignment.center,
+                                child: Text(
+                                  "${mockMeals[i]} Total: 12345",
+                                  style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis
+                                ),
+                              ),
                             ),
                           ]
                         )

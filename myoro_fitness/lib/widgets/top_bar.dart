@@ -24,7 +24,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                 height: 40
               ),
               const Spacer(),
-              Text("365 Days", style: theme.textTheme.titleMedium),
+              if(MediaQuery.of(context).size.width > 300) Text("365 Days", style: theme.textTheme.titleMedium),
               const Spacer(),
               InkWell(
                 onTap: () => BlocProvider.of<DarkModeBloc>(context).add(ToggleDarkModeEvent()),
