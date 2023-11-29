@@ -1,8 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-
-import 'package:myoro_fitness/main.dart';
-
 void main() {
   /* Example test
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

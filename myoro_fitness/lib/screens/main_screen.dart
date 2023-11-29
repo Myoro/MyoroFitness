@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:myoro_fitness/widgets/top_bar.dart";
 import "package:myoro_fitness/widgets/navigation_bar/footer_navigation_bar.dart";
 import "package:myoro_fitness/widgets/navigation_bar/side_navigation_bar.dart";
+import "package:myoro_fitness/pages/calories_page.dart";
 
 class MainScreen extends StatelessWidget {
   const MainScreen({ super.key });
@@ -16,11 +17,7 @@ class MainScreen extends StatelessWidget {
       body: (screenWidth < screenHeight)
         ? Column(
           children: [
-            Expanded(
-              child: Container(
-                color: Colors.grey
-              )
-            ),
+            CaloriesPage(),
             const FooterNavigationBar()
           ]
         )
@@ -28,11 +25,7 @@ class MainScreen extends StatelessWidget {
         Row(
           children: [
             const SideNavigationBar(),
-            Expanded(
-              child: Container(
-                color: Colors.grey
-              )
-            )
+            CaloriesPage()
           ]
         )
     );

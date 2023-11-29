@@ -1,5 +1,12 @@
 import "package:flutter/material.dart";
 
+TextStyle _normal({ required Color color, required double fontSize }) => TextStyle(
+  fontFamily: "Ubuntu",
+  fontStyle:  FontStyle.normal,
+  color:      color,
+  fontSize:   fontSize
+);
+
 final ThemeData dark = ThemeData(
   colorScheme: const ColorScheme(
     brightness:   Brightness.dark,
@@ -14,19 +21,11 @@ final ThemeData dark = ThemeData(
     surface:      Color(0xFF181818),
     onSurface:    Color(0xFFEDE6D6)
   ),
-  textTheme: const TextTheme(
-    bodyMedium: TextStyle(
-      fontFamily: "Ubuntu",
-      fontStyle:  FontStyle.normal,
-      color:      Color(0xFFEDE6D6),
-      fontSize:   16
-    ),
-    titleMedium: TextStyle(
-      fontFamily: "Ubuntu",
-      fontStyle:  FontStyle.normal,
-      color:      Color(0xFFEDE6D6),
-      fontSize:   20
-    )
+  textTheme: TextTheme(
+    bodyMedium:  _normal(color: const Color(0xFFEDE6D6), fontSize: 16),
+    bodySmall:   _normal(color: const Color(0xFFEDE6D6), fontSize: 12),
+    titleLarge:  _normal(color: const Color(0xFFEDE6D6), fontSize: 24),
+    titleMedium: _normal(color: const Color(0xFFEDE6D6), fontSize: 20)
   )
 );
 
@@ -44,18 +43,10 @@ final ThemeData light = ThemeData(
     surface:      Color(0xFFEDE6D6),
     onSurface:    Color(0xFF181818)
   ),
-  textTheme: const TextTheme(
-    bodyMedium: TextStyle(
-      fontFamily: "Ubuntu",
-      fontStyle:  FontStyle.normal,
-      color:      Color(0xFF181818),
-      fontSize:   16
-    ),
-    titleMedium: TextStyle(
-      fontFamily: "Ubuntu",
-      fontStyle:  FontStyle.normal,
-      color:      Color(0xFF181818),
-      fontSize:   20
-    )
+  textTheme: TextTheme(
+    bodyMedium:  _normal(color: const Color(0xFF181818), fontSize: 16),
+    bodySmall:   _normal(color: const Color(0xFF181818), fontSize: 12),
+    titleLarge:  _normal(color: const Color(0xFF181818), fontSize: 24),
+    titleMedium: _normal(color: const Color(0xFF181818), fontSize: 20)
   )
 );
