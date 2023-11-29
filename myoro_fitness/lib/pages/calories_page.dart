@@ -28,6 +28,43 @@ class CaloriesPage extends StatelessWidget {
         color: theme.colorScheme.primary,
         child: ListView(
           children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 17, right: 17),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 10,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color:        theme.colorScheme.onPrimary
+                          )
+                        )
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if(MediaQuery.of(context).size.width > 325)
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Text("Calorie Max: 2300", style: theme.textTheme.bodySmall),
+                              const Spacer(),
+                            ]
+                          ),
+                        ),
+                      Text(MediaQuery.of(context).size.width > 200 ? "Calories consumed: 10000" : "10000 cals", style: theme.textTheme.bodySmall)
+                    ]
+                  ),
+                ]
+              )
+            ),
+
             for(int i = 0; i < mockMeals.length; i++)
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 10, left: 17, right: 17),
