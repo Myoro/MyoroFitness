@@ -14,7 +14,7 @@ class CaloriesPage extends StatelessWidget {
     { "name": "Pizza", "quantity": "5 Spoons", "calories": "1234" },
     { "name": "Silly Billy Pizza", "quantity": "5 Spoons", "calories": "1234" },
     { "name": "Pizza", "quantity": "5 Spoons", "calories": "1234" },
-    { "name": "Pizza", "quantity": "5 Spoons", "calories": "1234" },
+    { "name": "Pizza Pizza Pizza Pizza Pizza Pizza Ellipsize Pizza", "quantity": "5 Spoons", "calories": "1234" },
     { "name": "Dodge Ram", "quantity": "5 Spoons", "calories": "1234" },
     { "name": "Que só maRam tem!", "quantity": "5 Spoons", "calories": "1234" },
   ];
@@ -59,23 +59,31 @@ class CaloriesPage extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 2, bottom: 2),
                                   child: Row(
                                     children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            mockFoods[i]["name"]!,
-                                            style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary)
-                                          ),
-                                          Text(
-                                            mockFoods[i]["quantity"]!,
-                                            style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary)
-                                          ),
-                                        ],
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              mockFoods[i]["name"]!,
+                                              style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis
+                                            ),
+                                            Text(
+                                              mockFoods[i]["quantity"]!,
+                                              style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis
+                                            ),
+                                          ],
+                                        )
                                       ),
                                       const Spacer(),
                                       Text(
                                         mockFoods[i]["calories"]!,
-                                        style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary)
+                                        style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis
                                       )
                                     ],
                                   )
@@ -91,12 +99,16 @@ class CaloriesPage extends StatelessWidget {
                           children: [
                             Text(
                               "Recommended: 1234",
-                              style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary)
+                              style:    theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis
                             ),
                             const Spacer(),
                             Text(
                               "${mockMeals[i]} Total: 12345",
-                              style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary)
+                              style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis
                             ),
                           ]
                         )
