@@ -3,13 +3,15 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/dark_mode_bloc.dart";
 import "package:myoro_fitness/themes.dart";
 import "package:myoro_fitness/screens/main_screen.dart";
+import "package:myoro_fitness/database/database.dart";
+
+
+
 
 void main() => runApp(
-  MultiBlocProvider(
-    providers: [
-      BlocProvider<DarkModeBloc>(create: (context) => DarkModeBloc())
-    ],
-    child: const App()
+  BlocProvider(
+    create: (context) => DarkModeBloc(),
+    child:  const App(),
   )
 );
 
@@ -18,6 +20,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Database().init();
+
     return BlocBuilder<DarkModeBloc, DarkModeState>(
       builder: (context, darkModeState) {
         return MaterialApp(
