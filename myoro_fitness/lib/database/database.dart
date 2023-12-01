@@ -28,7 +28,7 @@ class Database {
       version: 1,
       onCreate: (db, version) async {
         await db.execute('''
-          CREATE TABLE calorie_plan(
+          CREATE TABLE IF NOT EXISTS calorie_plan(
             id              INTEGER PRIMARY KEY,
             tdee            INTEGER,
             calorie_deficit INTEGER
