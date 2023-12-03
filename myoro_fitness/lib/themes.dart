@@ -25,7 +25,7 @@ final ThemeData dark = ThemeData(
     bodyMedium:  _normal(color: const Color(0xFFEDE6D6), fontSize: 16),
     bodySmall:   _normal(color: const Color(0xFFEDE6D6), fontSize: 12),
     titleLarge:  _normal(color: const Color(0xFFEDE6D6), fontSize: 24),
-    titleMedium: _normal(color: const Color(0xFFEDE6D6), fontSize: 20)
+    titleMedium: _normal(color: const Color(0xFFEDE6D6), fontSize: 20),
   )
 );
 
@@ -47,6 +47,6 @@ final ThemeData light = ThemeData(
     bodyMedium:  _normal(color: const Color(0xFF181818), fontSize: 16),
     bodySmall:   _normal(color: const Color(0xFF181818), fontSize: 12),
     titleLarge:  _normal(color: const Color(0xFF181818), fontSize: 24),
-    titleMedium: _normal(color: const Color(0xFF181818), fontSize: 20)
+    titleMedium: _normal(color: const Color(0xFF181818), fontSize: 20),
   )
 );

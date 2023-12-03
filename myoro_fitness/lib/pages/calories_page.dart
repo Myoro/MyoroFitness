@@ -1,7 +1,16 @@
 import "package:flutter/material.dart";
+import "package:myoro_fitness/database.dart";
+import "package:myoro_fitness/widgets/modals/confirmation_modal.dart";
 
-class CaloriesPage extends StatelessWidget {
-  CaloriesPage({ super.key });
+class CaloriesPage extends StatefulWidget {
+  const CaloriesPage({ super.key }); 
+
+  @override
+  State<CaloriesPage> createState() => _CaloriesPageState();
+}
+
+class _CaloriesPageState extends State<CaloriesPage> {
+  bool isModalShown = false;
 
   final List<String> mockMeals = [ "Breakfast", "Lunch", "Dinner", "Snacks" ];
   final List<Map<String, String>> mockFoods = [
@@ -22,6 +31,37 @@ class CaloriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+
+    // Since this is the initial page, we check if the tdee & calorie deficit has been set
+    Database().get("calorie_plan").then((row) {
+      if(row["remind_user"] == 1 && !isModalShown) {
+        setState(() { isModalShown = true; });
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ConfirmationModal(
+              title: "Calorie Plan",
+              message: "Would you like to set a calorie plan?",
+              onYes: () {
+                Navigator.pop(context);
+
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ConfirmationModal(
+                      title: "Getting your TDEE",
+                      message: "This is a tomorrow issue",
+                      onYes: () => print("TODO")
+                    );
+                  }
+                );
+              },
+              onNo: () => Database().update("calorie_plan", "remind_user", 0)
+            );
+          }
+        );
+      }
+    });
 
     return Expanded(
       child: Container(
