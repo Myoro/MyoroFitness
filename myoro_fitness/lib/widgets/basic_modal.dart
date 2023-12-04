@@ -2,16 +2,16 @@ import "package:flutter/material.dart";
 import "package:myoro_fitness/widgets/buttons/button_without_feedback.dart";
 import "package:myoro_fitness/widgets/buttons/text_hover_button.dart";
 
-class ConfirmationModal extends StatelessWidget {
+class BasicModal extends StatelessWidget {
   final String title;
-  final String message;
+  final Widget content;
   final Function onYes;
   final Function? onNo;
 
-  const ConfirmationModal({
+  const BasicModal({
     super.key,
     required this.title,
-    required this.message,
+    required this.content,
     required this.onYes,
     this.onNo
   });
@@ -45,10 +45,7 @@ class ConfirmationModal extends StatelessWidget {
               )
             ]
           ),
-          Text(
-            message,
-            style: theme.textTheme.titleMedium
-          ),
+          content,
           const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

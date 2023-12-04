@@ -26,6 +26,10 @@ final ThemeData dark = ThemeData(
     bodySmall:   _normal(color: const Color(0xFFEDE6D6), fontSize: 12),
     titleLarge:  _normal(color: const Color(0xFFEDE6D6), fontSize: 24),
     titleMedium: _normal(color: const Color(0xFFEDE6D6), fontSize: 20),
+  ),
+  textSelectionTheme: TextSelectionThemeData(
+    cursorColor:    const Color(0xFFEDE6D6),
+    selectionColor: const Color(0xFFEDE6D6).withOpacity(0.2)
   )
 );
 
@@ -48,5 +52,10 @@ final ThemeData light = ThemeData(
     bodySmall:   _normal(color: const Color(0xFF181818), fontSize: 12),
     titleLarge:  _normal(color: const Color(0xFF181818), fontSize: 24),
     titleMedium: _normal(color: const Color(0xFF181818), fontSize: 20),
+  ),
+  textSelectionTheme: TextSelectionThemeData(
+    cursorColor:    const Color(0xFF181818),
+    selectionColor: const Color(0xFF181818).withOpacity(0.2)
   )
+
 );

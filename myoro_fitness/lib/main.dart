@@ -5,6 +5,7 @@ import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:window_manager/window_manager.dart";
 import "package:myoro_fitness/bloc/dark_mode_bloc.dart";
+import "package:myoro_fitness/bloc/tdee_bloc.dart";
 import "package:myoro_fitness/themes.dart";
 import "package:myoro_fitness/database.dart";
 import "package:myoro_fitness/widgets/top_bar.dart";
@@ -40,26 +41,29 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DarkModeBloc, DarkModeState>(
       builder: (context, darkModeState) {
-        return MaterialApp(
-          title: "MyoroFitness",
-          theme: darkModeState.enabled ? dark : light,
-          home:  Scaffold(
-            appBar: const TopBar(),
-            body: (Platform.isAndroid || Platform.isIOS)
-              ? const Column(
-                children: [
-                  CaloriesPage(),
-                  FooterNavigationBar()
-                ]
-              )
-              :
-              const Row(
-                children: [
-                  SideNavigationBar(),
-                  CaloriesPage()
-                ]
-              )
-          )
+        return BlocProvider(
+          create: (context) => TDEEBloc(),
+          child: MaterialApp(
+            title: "MyoroFitness",
+            theme: darkModeState.enabled ? dark : light,
+            home:  Scaffold(
+              appBar: const TopBar(),
+              body: (Platform.isAndroid || Platform.isIOS)
+                ? const Column(
+                  children: [
+                    CaloriesPage(),
+                    FooterNavigationBar()
+                  ]
+                )
+                :
+                const Row(
+                  children: [
+                    SideNavigationBar(),
+                    CaloriesPage()
+                  ]
+                )
+            )
+          ),
         );
       }
     );
