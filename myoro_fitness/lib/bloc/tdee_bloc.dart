@@ -22,6 +22,11 @@ class GetTDEEAgeEvent extends TDEEEvent {
   GetTDEEAgeEvent(this.age);
 }
 class CalculateTDEEEvent extends TDEEEvent {}
+class CalculateCalorieDeficitEvent extends TDEEEvent {
+  int tdee;
+  int deficit;
+  CalculateCalorieDeficitEvent(this.tdee, this.deficit);
+}
 
 class TDEEState {
   int? height;
@@ -29,6 +34,7 @@ class TDEEState {
   int? age;
   double? lifestyle;
   String gender;
+  int? calorieDeficit;
 
   TDEEState({
     this.height = 129,
@@ -36,6 +42,7 @@ class TDEEState {
     this.lifestyle = 1.2,
     this.age,
     this.gender = "Man",
+    this.calorieDeficit,
   });
 
   TDEEState copyWith({
@@ -44,16 +51,18 @@ class TDEEState {
     double? lifestyle,
     int? age,
     String? gender,
+    int? calorieDeficit,
   }) => TDEEState(
     height: height ?? this.height,
     weight: weight ?? this.weight,
     lifestyle: lifestyle ?? this.lifestyle,
     age: age ?? this.age,
     gender: gender ?? this.gender,
+    calorieDeficit: calorieDeficit ?? this.calorieDeficit,
   );
 
   bool tdeeIsCalculable() {
-    if(height != null && weight != null && age != null && lifestyle != null && gender != null) {
+    if(height != null && weight != null && age != null && lifestyle != null) {
       return true;
     } else {
       return false;
@@ -64,14 +73,16 @@ class TDEEState {
     // BMR
       // Males: 88.362 + (13.397 * <weight (kg)>) + (4.799 * <height (cm)>) - (5.677 * age)
       // Females: 447.593 + (9.247 * <weight (kg)>) + (3.098 * <height (cm)>) - (4.330 * age)
-    // Activity calories: BMR * <lifestyle variable>
-    // TDEE: BMR + Activity Calories
+    // TDEE: BMR + <lifestyle variable>
 
     int bmr;
-    if(gender == "Male") bmr = (88.362 + (13.397 * weight!) + (4.799 * height!) - (5.677 * age!)).round();
-    else                 bmr = (447.593 + (9.247 * weight!) + (3.098 * height!) - (4.330 * age!)).round();
+    if(gender == "Male") {
+      bmr = (88.362 + (13.397 * weight!) + (4.799 * height!) - (5.677 * age!)).round();
+    } else {
+      bmr = (447.593 + (9.247 * weight!) + (3.098 * height!) - (4.330 * age!)).round();
+    }
 
-    return (bmr + (bmr * lifestyle!)).round();
+    return (bmr * lifestyle!).round();
   }
 }
 
@@ -82,5 +93,6 @@ class TDEEBloc extends Bloc<TDEEEvent, TDEEState> {
     on<GetTDEELifestyleEvent>((event, emit) => emit(state.copyWith(lifestyle: event.lifestyle)));
     on<GetTDEEAgeEvent>((event, emit) => emit(state.copyWith(age: event.age)));
     on<GetTDEEGenderEvent>((event, emit) => emit(state.copyWith(gender: event.gender)));
+    on<CalculateCalorieDeficitEvent>((event, emit) => emit(state.copyWith(calorieDeficit: event.tdee - event.deficit)));
   }
 }

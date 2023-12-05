@@ -8,13 +8,15 @@ class BasicInput extends StatefulWidget {
   final double height;
   final Function? onChanged;
   final BasicInputEnum? textType;
+  final bool centered;
 
   const BasicInput({
     super.key,
     this.width,
     this.height = 40,
     this.onChanged,
-    this.textType
+    this.textType,
+    this.centered = false,
   });
 
   @override
@@ -38,7 +40,7 @@ class _BasicInputState extends State<BasicInput> {
       height: widget.height,
       width: widget.width,
       child: TextField(
-        textAlign: TextAlign.center,
+        textAlign: widget.centered ? TextAlign.center : TextAlign.start,
         style: theme.textTheme.bodyMedium,
         controller: controller,
         inputFormatters: [

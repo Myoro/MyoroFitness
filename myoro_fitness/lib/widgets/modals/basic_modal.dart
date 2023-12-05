@@ -7,13 +7,17 @@ class BasicModal extends StatelessWidget {
   final Widget content;
   final Function onYes;
   final Function? onNo;
+  final bool showYes;
+  final String noText;
 
   const BasicModal({
     super.key,
     required this.title,
     required this.content,
     required this.onYes,
-    this.onNo
+    this.onNo,
+    this.showYes = true,
+    this.noText = "No",
   });
 
   @override
@@ -50,13 +54,14 @@ class BasicModal extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextHoverButton(
-                title: "Yes",
-                onTap: onYes
-              ),
+              if(showYes)
+                TextHoverButton(
+                  title: "Yes",
+                  onTap: onYes
+                ),
               const SizedBox(width: 10),
               TextHoverButton(
-                title: "No",
+                title: noText,
                 onTap: () {
                   if(onNo != null) onNo!();
                   Navigator.pop(context);
