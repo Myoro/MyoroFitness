@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/tdee_bloc.dart";
 import "package:myoro_fitness/database.dart";
-import "package:myoro_fitness/screens/food_selection_screen.dart";
+import "package:myoro_fitness/screens/food_search_screen.dart";
 import "package:myoro_fitness/widgets/modals/tdee_modal.dart";
 
 class CaloriesPage extends StatefulWidget {
@@ -130,7 +130,7 @@ class _CaloriesPageState extends State<CaloriesPage> {
                                 children: [
                                   for(int i = 0; i < mockFoods.length; i++)
                                     InkWell(
-                                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FoodSelectionScreen())),
+                                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const FoodSearchScreen())),
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 2, bottom: 2),
                                         child: Row(

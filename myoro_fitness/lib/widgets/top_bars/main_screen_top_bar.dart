@@ -2,15 +2,14 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/dark_mode_bloc.dart";
 
-class TopBar extends StatelessWidget implements PreferredSizeWidget {
-  const TopBar({ super.key });
+class MainScreenTopBar extends StatelessWidget implements PreferredSizeWidget {
+  const MainScreenTopBar({ super.key });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<DarkModeBloc, DarkModeState>(
       builder: (context, darkModeState) {
         final ThemeData theme = Theme.of(context);
