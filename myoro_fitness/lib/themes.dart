@@ -7,6 +7,13 @@ TextStyle _normal({ required Color color, required double fontSize }) => TextSty
   fontSize:   fontSize
 );
 
+TextStyle _bold({ required Color color, required double fontSize }) => TextStyle(
+  fontFamily: "Ubuntu",
+  fontWeight: FontWeight.bold,
+  color:      color,
+  fontSize:   fontSize
+);
+
 final ThemeData dark = ThemeData(
   colorScheme: const ColorScheme(
     brightness:   Brightness.dark,
@@ -26,6 +33,7 @@ final ThemeData dark = ThemeData(
     bodySmall:   _normal(color: const Color(0xFFEDE6D6), fontSize: 12),
     titleLarge:  _normal(color: const Color(0xFFEDE6D6), fontSize: 24),
     titleMedium: _normal(color: const Color(0xFFEDE6D6), fontSize: 20),
+    labelMedium: _bold(color: const Color(0xFFEDE6D6), fontSize: 16)
   ),
   textSelectionTheme: TextSelectionThemeData(
     cursorColor:    const Color(0xFFEDE6D6),
@@ -52,6 +60,7 @@ final ThemeData light = ThemeData(
     bodySmall:   _normal(color: const Color(0xFF181818), fontSize: 12),
     titleLarge:  _normal(color: const Color(0xFF181818), fontSize: 24),
     titleMedium: _normal(color: const Color(0xFF181818), fontSize: 20),
+    labelMedium: _bold(color: const Color(0xFF181818), fontSize: 16)
   ),
   textSelectionTheme: TextSelectionThemeData(
     cursorColor:    const Color(0xFF181818),

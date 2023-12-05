@@ -18,7 +18,7 @@ void main() async {
 
   if(!Platform.isAndroid && !Platform.isIOS) {
     await windowManager.ensureInitialized();
-    WindowManager.instance.setMinimumSize(const Size(500, 500));
+    WindowManager.instance.setMinimumSize(const Size(500, 600));
   }
 
   SystemChrome.setPreferredOrientations([ DeviceOrientation.portraitUp ]);

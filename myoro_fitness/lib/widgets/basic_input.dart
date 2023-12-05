@@ -1,9 +1,21 @@
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+
+enum BasicInputEnum { digitsOnly }
 
 class BasicInput extends StatefulWidget {
   final double? width;
+  final double height;
+  final Function? onChanged;
+  final BasicInputEnum? textType;
 
-  const BasicInput({ super.key, this.width });
+  const BasicInput({
+    super.key,
+    this.width,
+    this.height = 40,
+    this.onChanged,
+    this.textType
+  });
 
   @override
   State<BasicInput> createState() => _BasicInputState();
@@ -23,10 +35,18 @@ class _BasicInputState extends State<BasicInput> {
     final ThemeData theme = Theme.of(context);
 
     return SizedBox(
-      height: 40,
+      height: widget.height,
       width: widget.width,
       child: TextField(
+        textAlign: TextAlign.center,
         style: theme.textTheme.bodyMedium,
+        controller: controller,
+        inputFormatters: [
+          (widget.textType == BasicInputEnum.digitsOnly)
+            ? FilteringTextInputFormatter.digitsOnly
+            : FilteringTextInputFormatter.allow(RegExp('.*'))
+        ],
+        onChanged: (value) { if(widget.onChanged != null) widget.onChanged!(value); },
         decoration: InputDecoration(
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: theme.colorScheme.onPrimary), // Change color for focused state
@@ -35,7 +55,6 @@ class _BasicInputState extends State<BasicInput> {
             borderSide: BorderSide(color: theme.colorScheme.onPrimary), // Change color for default state
           ),
         ),
-        controller: controller
       ),
     );
   }

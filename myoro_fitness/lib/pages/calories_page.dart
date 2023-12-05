@@ -1,10 +1,6 @@
 import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:myoro_fitness/bloc/tdee_bloc.dart";
 import "package:myoro_fitness/database.dart";
-import "package:myoro_fitness/widgets/basic_modal.dart";
-import "package:myoro_fitness/widgets/basic_dropdown.dart";
-import "package:myoro_fitness/widgets/basic_input.dart";
+import "package:myoro_fitness/widgets/modals/tdee_modal.dart";
 
 class CaloriesPage extends StatefulWidget {
   const CaloriesPage({ super.key }); 
@@ -42,86 +38,7 @@ class _CaloriesPageState extends State<CaloriesPage> {
         setState(() { isModalShown = true; });
         showDialog(
           context: context,
-          builder: (context) => BasicModal(
-            title: "Calorie Plan",
-            content: Text(
-              "Would you like to set a calorie plan?",
-              style: theme.textTheme.titleMedium
-            ),
-            onYes: () {
-              Navigator.pop(context);
-
-              List<String> heights = List.generate(75, (index) {
-                final int centimeter       = 125 + index + 4;
-                final String feet          = (centimeter / 30.48).toStringAsFixed(2);
-                final String feetRemainder = (double.parse("0.${feet[2]}${feet[3]}") * 12).round().toString();
-                
-                return "${centimeter}cm - ${feet[0]}'${feetRemainder}ft";
-              });
-
-              List<String> lifestyles = [
-                "Sedentary",         // 1.2
-                "Lightly active",    // 1.375
-                "Moderately active", // 1.55
-                "Very active"        // 1.725
-              ];
-
-              showDialog(
-                context: context,
-                builder: (context) => BasicModal(
-                  title: "Getting your TDEE",
-                  onYes: () => print("Fuck Flutter fuck verbosity"),
-                  content: Column(
-                    children: [
-                      // Place constrainted width for the inputs
-                  
-                      // Age
-                      // TODO: Make it only input numbers
-                      Row(
-                        children: [
-                          Text("Age:", style: theme.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          const BasicInput(width: 200)
-                        ]
-                      ),
-                      // Gender
-                      Row(
-                        children: [
-                          Text("Gender:", style: theme.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          const BasicDropdown( items: [ "Man", "Woman" ], width: 200)
-                        ]
-                      ),
-                      // Weight
-                      Row(
-                        children: [
-                          Text("Weight:", style: theme.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          const BasicInput(width: 200)
-                        ]
-                      ),
-                      // Height
-                      Row(
-                        children: [
-                          Text("Height:", style: theme.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          BasicDropdown(items: heights, width: 200)
-                        ]
-                      ),
-                      // Activity level
-                      Row(
-                        children: [
-                          Text("Height:", style: theme.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          BasicDropdown(items: lifestyles, width: 200)
-                        ]
-                      ),
-                    ]
-                  )
-                )
-              );
-            }
-          )
+          builder: (context) => const TDEEModal()
         );
       }
     });

@@ -30,7 +30,7 @@ class _TextHoverButtonState extends State<TextHoverButton> {
           padding: const EdgeInsets.all(5),
           child: Text(
             widget.title,
-            style: theme.textTheme.bodyMedium!.copyWith(
+            style: theme.textTheme.titleMedium!.copyWith(
               color: hovered ? theme.colorScheme.primary : theme.colorScheme.onPrimary
             )
           ),

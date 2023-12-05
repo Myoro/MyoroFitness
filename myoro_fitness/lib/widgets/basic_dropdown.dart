@@ -5,13 +5,15 @@ class BasicDropdown extends StatefulWidget {
   final EdgeInsets itemPadding;
   final Function? onChanged;
   final double? width;
+  final double height;
 
   const BasicDropdown({
     super.key,
     required this.items,
     this.itemPadding = EdgeInsets.zero,
     this.onChanged,
-    this.width
+    this.width,
+    this.height = 40
   });
 
   @override
@@ -31,7 +33,9 @@ class _BasicDropdownState extends State<BasicDropdown> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.width,
+      height: widget.height,
       child: DropdownButton<String>(
+        isDense: true,
         menuMaxHeight: 200,
         isExpanded: true,
         value: value,
@@ -45,10 +49,10 @@ class _BasicDropdownState extends State<BasicDropdown> {
           );
         }).toList(),
         onChanged: (value) {
-          widget.onChanged!(value!);
-          setState(() { this.value = value; });
+          if(widget.onChanged != null) widget.onChanged!(value!);
+          setState(() { this.value = value!; });
         }
-      ),
+      )
     );
   }
 }

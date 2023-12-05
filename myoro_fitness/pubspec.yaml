@@ -35,3 +35,4 @@ flutter:
     - family: Ubuntu
       fonts:
         - asset: assets/fonts/Ubuntu-R.ttf
+        - asset: assets/fonts/Ubuntu-B.ttf
