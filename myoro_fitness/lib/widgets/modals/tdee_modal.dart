@@ -22,7 +22,8 @@ class _TDEEModalState extends State<TDEEModal> {
       title: "Calorie Plan",
       content: Text(
         "Would you like to set a calorie plan?",
-        style: theme.textTheme.titleMedium
+        style: theme.textTheme.titleMedium,
+        textAlign: TextAlign.center
       ),
       onYes: () {
         Navigator.pop(context);
