@@ -27,6 +27,11 @@ class CalculateCalorieDeficitEvent extends TDEEEvent {
   int deficit;
   CalculateCalorieDeficitEvent(this.tdee, this.deficit);
 }
+class GetTDEEEvent extends TDEEEvent {
+  int? tdee;
+  int? deficit;
+  GetTDEEEvent(this.tdee, this.deficit);
+}
 
 class TDEEState {
   int? height;
@@ -35,6 +40,7 @@ class TDEEState {
   double? lifestyle;
   String gender;
   int? calorieDeficit;
+  int? tdee;
 
   TDEEState({
     this.height = 129,
@@ -43,6 +49,7 @@ class TDEEState {
     this.age,
     this.gender = "Man",
     this.calorieDeficit,
+    this.tdee,
   });
 
   TDEEState copyWith({
@@ -52,6 +59,7 @@ class TDEEState {
     int? age,
     String? gender,
     int? calorieDeficit,
+    int? tdee,
   }) => TDEEState(
     height: height ?? this.height,
     weight: weight ?? this.weight,
@@ -59,6 +67,7 @@ class TDEEState {
     age: age ?? this.age,
     gender: gender ?? this.gender,
     calorieDeficit: calorieDeficit ?? this.calorieDeficit,
+    tdee: tdee ?? this.tdee,
   );
 
   bool tdeeIsCalculable() {
@@ -94,5 +103,6 @@ class TDEEBloc extends Bloc<TDEEEvent, TDEEState> {
     on<GetTDEEAgeEvent>((event, emit) => emit(state.copyWith(age: event.age)));
     on<GetTDEEGenderEvent>((event, emit) => emit(state.copyWith(gender: event.gender)));
     on<CalculateCalorieDeficitEvent>((event, emit) => emit(state.copyWith(calorieDeficit: event.tdee - event.deficit)));
+    on<GetTDEEEvent>((event, emit) => emit(state.copyWith(tdee: event.tdee, calorieDeficit: event.deficit)));
   }
 }

@@ -76,7 +76,8 @@ class _TDEEModalState extends State<TDEEModal> {
                           title: "Caloric Deficit",
                           onYes: () {
                             Database().update("calorie_plan", "tdee", int.parse(tdee));
-                            Database().update("calorie_plan", "calorie_deficit", int.parse('5'));
+                            Database().update("calorie_plan", "calorie_deficit", deficit);
+                            BlocProvider.of<TDEEBloc>(context).add(GetTDEEEvent(int.parse(tdee), deficit));
                             Navigator.pop(context);
                           },
                           noText: "Exit",
@@ -117,97 +118,101 @@ class _TDEEModalState extends State<TDEEModal> {
                 },
                 showYes: (tdee == "Not complete") ? false : true,
                 noText: "Exit",
-                content: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            for(int i = 0; i < data.length; i++) ...[
-                              SizedBox(
-                                height: 40,
-                                child: Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Text(
-                                    "${data[i]['title']}:",
-                                    style: theme.textTheme.bodyMedium)
-                                  )
-                              ),
-                              const SizedBox(height: 10),
-                            ],
-                            const SizedBox(height: 15),
-                            Text("TDEE:", style: theme.textTheme.labelMedium),
-                          ]
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: 125,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                content: Container(
+                  height: 244,
+                  constraints: const BoxConstraints(maxHeight: 244),
+                  child: ListView(
+                    children: [
+                      Row(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               for(int i = 0; i < data.length; i++) ...[
-                                (data[i]["type"] == "input")
-                                  ? BasicInput(
-                                    onChanged: (value) {
-                                      int sender = (value.length == 0) ? 0 : int.parse(value);
-              
-                                      switch(data[i]["title"]) {
-                                        case "Age":
-                                          BlocProvider.of<TDEEBloc>(context).add(GetTDEEAgeEvent(sender));
-                                          break;
-                                        case "Weight (kg)":
-                                          BlocProvider.of<TDEEBloc>(context).add(GetTDEEWeightEvent(sender));
-                                          break;
-                                      }
-                                    },
-                                    textType: BasicInputEnum.digitsOnly
-                                  )
-                                  : Padding(
-                                    padding: const EdgeInsets.only(top: 15),
-                                    child: BasicDropdown(
-                                      items: data[i]["options"],
-                                      height: 25,
-                                      onChanged: (value) {
-                                        switch(data[i]["title"]) {
-                                          case "Gender":
-                                            BlocProvider.of<TDEEBloc>(context).add(GetTDEEGenderEvent(value));
-                                            break;
-                                          case "Height":
-                                            BlocProvider.of<TDEEBloc>(context).add(GetTDEEHeightEvent(int.parse(value.substring(0, 3))));
-                                            break;
-                                          case "Activity Level":
-                                            switch(value) {
-                                              case "Sedentary":
-                                                BlocProvider.of<TDEEBloc>(context).add(GetTDEELifestyleEvent(1.2));
-                                                break;
-                                              case "Lightly active":
-                                                BlocProvider.of<TDEEBloc>(context).add(GetTDEELifestyleEvent(1.375));
-                                                break;
-                                              case "Moderately active":
-                                                BlocProvider.of<TDEEBloc>(context).add(GetTDEELifestyleEvent(1.55));
-                                                break;
-                                              case "Very active":
-                                                BlocProvider.of<TDEEBloc>(context).add(GetTDEELifestyleEvent(1.725));
-                                                break;
-                                            }
-              
-                                            break;
-                                        }
-                                      }
-                                    ),
-                                  ),
+                                SizedBox(
+                                  height: 40,
+                                  child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      "${data[i]['title']}:",
+                                      style: theme.textTheme.bodyMedium)
+                                    )
+                                ),
                                 const SizedBox(height: 10),
                               ],
                               const SizedBox(height: 15),
-                              Text(tdee, style: theme.textTheme.bodyMedium),
+                              Text("TDEE:", style: theme.textTheme.labelMedium),
                             ]
                           ),
-                        ),
-                      ]
-                    ),
-                  ],
+                          const SizedBox(width: 10),
+                          SizedBox(
+                            width: 125,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                for(int i = 0; i < data.length; i++) ...[
+                                  (data[i]["type"] == "input")
+                                    ? BasicInput(
+                                      onChanged: (value) {
+                                        int sender = (value.length == 0) ? 0 : int.parse(value);
+                                
+                                        switch(data[i]["title"]) {
+                                          case "Age":
+                                            BlocProvider.of<TDEEBloc>(context).add(GetTDEEAgeEvent(sender));
+                                            break;
+                                          case "Weight (kg)":
+                                            BlocProvider.of<TDEEBloc>(context).add(GetTDEEWeightEvent(sender));
+                                            break;
+                                        }
+                                      },
+                                      textType: BasicInputEnum.digitsOnly
+                                    )
+                                    : Padding(
+                                      padding: const EdgeInsets.only(top: 15),
+                                      child: BasicDropdown(
+                                        items: data[i]["options"],
+                                        height: 25,
+                                        onChanged: (value) {
+                                          switch(data[i]["title"]) {
+                                            case "Gender":
+                                              BlocProvider.of<TDEEBloc>(context).add(GetTDEEGenderEvent(value));
+                                              break;
+                                            case "Height":
+                                              BlocProvider.of<TDEEBloc>(context).add(GetTDEEHeightEvent(int.parse(value.substring(0, 3))));
+                                              break;
+                                            case "Activity Level":
+                                              switch(value) {
+                                                case "Sedentary":
+                                                  BlocProvider.of<TDEEBloc>(context).add(GetTDEELifestyleEvent(1.2));
+                                                  break;
+                                                case "Lightly active":
+                                                  BlocProvider.of<TDEEBloc>(context).add(GetTDEELifestyleEvent(1.375));
+                                                  break;
+                                                case "Moderately active":
+                                                  BlocProvider.of<TDEEBloc>(context).add(GetTDEELifestyleEvent(1.55));
+                                                  break;
+                                                case "Very active":
+                                                  BlocProvider.of<TDEEBloc>(context).add(GetTDEELifestyleEvent(1.725));
+                                                  break;
+                                              }
+                                
+                                              break;
+                                          }
+                                        }
+                                      ),
+                                    ),
+                                  const SizedBox(height: 10),
+                                ],
+                                const SizedBox(height: 15),
+                                Text(tdee, style: theme.textTheme.bodyMedium),
+                              ]
+                            ),
+                          ),
+                        ]
+                      ),
+                    ],
+                  ),
                 )
               );
             }
