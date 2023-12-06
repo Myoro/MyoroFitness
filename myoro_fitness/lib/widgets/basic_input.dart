@@ -9,6 +9,7 @@ class BasicInput extends StatefulWidget {
   final Function? onChanged;
   final BasicInputEnum? textType;
   final bool centered;
+  final String? placeholder;
 
   const BasicInput({
     super.key,
@@ -17,6 +18,7 @@ class BasicInput extends StatefulWidget {
     this.onChanged,
     this.textType,
     this.centered = false,
+    this.placeholder,
   });
 
   @override
@@ -56,6 +58,7 @@ class _BasicInputState extends State<BasicInput> {
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: theme.colorScheme.onPrimary), // Change color for default state
           ),
+          hintText: widget.placeholder
         ),
       ),
     );

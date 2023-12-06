@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:myoro_fitness/bloc/dark_mode_bloc.dart";
+import "package:myoro_fitness/api.dart";
 import "package:myoro_fitness/widgets/basic_input.dart";
 
 class FoodSearchScreenTopBar extends StatelessWidget implements PreferredSizeWidget {
@@ -20,20 +19,15 @@ class FoodSearchScreenTopBar extends StatelessWidget implements PreferredSizeWid
           BasicInput(
             width:    MediaQuery.of(context).size.width - 200,
             height:   45,
-            centered: true
+            centered: true,
+            placeholder: "Search for Foods",
+            onChanged: (value) => API.getFoods()
           ),
           const Spacer(),
           InkWell(
-            onTap: () => BlocProvider.of<DarkModeBloc>(context).add(ToggleDarkModeEvent()),
+            onTap: () => print("Add custom food"), // TODO
             customBorder: const CircleBorder(),
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Image.asset(
-                "assets/img/Theme${(theme.brightness == Brightness.dark) ? "Dark" : "Light"}.png",
-                width:  40,
-                height: 40
-              )
-            )
+            child: Icon(Icons.add, color: theme.colorScheme.onPrimary, size: 50)
           )
         ]
       )

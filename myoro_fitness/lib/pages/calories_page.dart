@@ -130,7 +130,7 @@ class _CaloriesPageState extends State<CaloriesPage> {
                                 children: [
                                   for(int i = 0; i < mockFoods.length; i++)
                                     InkWell(
-                                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const FoodSearchScreen())),
+                                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FoodSearchScreen())),
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 2, bottom: 2),
                                         child: Row(
