@@ -116,9 +116,18 @@ class _CaloriesPageState extends State<CaloriesPage> {
                         child: Column(
                           children: [
                             // Meal name
-                            Text(
-                              mockMeals[i],
-                              style: theme.textTheme.titleLarge!.copyWith(color: theme.colorScheme.primary)
+                            Row(
+                              children: [
+                                Text(
+                                  mockMeals[i],
+                                  style: theme.textTheme.titleLarge!.copyWith(color: theme.colorScheme.primary)
+                                ),
+                                const Spacer(),
+                                InkWell(
+                                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FoodSearchScreen())),
+                                  child: Icon(Icons.add, size: 30, color: theme.colorScheme.primary)
+                                )
+                              ]
                             ),
                             
                             Divider(thickness: 0.5, color: theme.colorScheme.primary),
@@ -130,7 +139,7 @@ class _CaloriesPageState extends State<CaloriesPage> {
                                 children: [
                                   for(int i = 0; i < mockFoods.length; i++)
                                     InkWell(
-                                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FoodSearchScreen())),
+                                      onTap: () => print("Todo"),
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 2, bottom: 2),
                                         child: Row(

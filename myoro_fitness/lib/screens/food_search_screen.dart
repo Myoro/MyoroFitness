@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
 import "package:myoro_fitness/widgets/top_bars/food_search_screen_top_bar.dart";
+import "package:myoro_fitness/screens/food_information_screen.dart";
 
 class FoodSearchScreen extends StatefulWidget {
   const FoodSearchScreen({ super.key });
@@ -25,8 +26,8 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> with SingleTickerPr
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,42 +60,45 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> with SingleTickerPr
                 child: ListView(
                   children: [
                     for(int i = 0; i < state.foods!.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5, left: 17, right: 17),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color:        theme.colorScheme.onPrimary
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        state.foods![i].name,
-                                        style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary),
-                                        overflow: TextOverflow.ellipsis
-                                      ),
-                                      if(state.foods![i].company != null)
+                      InkWell(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FoodInformationScreen())),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 5, left: 17, right: 17),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color:        theme.colorScheme.onPrimary
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width / 2,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
                                         Text(
-                                          state.foods![i].company!,
-                                          style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
+                                          state.foods![i].name,
+                                          style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary),
                                           overflow: TextOverflow.ellipsis
-                                        )
-                                    ]
+                                        ),
+                                        if(state.foods![i].company != null)
+                                          Text(
+                                            state.foods![i].company!,
+                                            style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
+                                            overflow: TextOverflow.ellipsis
+                                          )
+                                      ]
+                                    ),
                                   ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  (state.foods![i].calories != null) ? "${state.foods![i].calories!.toString()}kcals" : "N/A",
-                                  style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary)
-                                )
-                              ]
+                                  const Spacer(),
+                                  Text(
+                                    (state.foods![i].calories != null) ? "${state.foods![i].calories!.toString()}kcals" : "N/A",
+                                    style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary)
+                                  )
+                                ]
+                              ),
                             ),
                           ),
                         ),
