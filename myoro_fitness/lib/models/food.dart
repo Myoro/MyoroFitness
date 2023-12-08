@@ -3,9 +3,8 @@ class Food {
   final String? company;
   final int? calories;
 
-  const Food({
-    required this.name,
-    this.company,
-    this.calories
-  });
+  Food.fromJson(Map<String, dynamic> json)
+    : name     = json["description"],
+      company  = (json["brandName"] != null) ? json["brandName"] : null,
+      calories = (json["foodNutrients"][3]["nutrientNumber"] != null) ? int.parse(json["foodNutrients"][3]["nutrientNumber"]) : null;
 }

@@ -1,73 +1,110 @@
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
 import "package:myoro_fitness/widgets/top_bars/food_search_screen_top_bar.dart";
-import "package:myoro_fitness/models/food.dart";
 
-import "dart:math";
+class FoodSearchScreen extends StatefulWidget {
+  const FoodSearchScreen({ super.key });
 
-class FoodSearchScreen extends StatelessWidget {
-  final List<Food> mockFoods = List.generate(30, (index) => Food(
-    name: [ "Random food #1", "Mock fod", "Cereal", "Quaker Oats", "This is a longer food okay okokokokokokok" ][Random().nextInt(5)],
-    company: [ null, "Nestle", "Mondalez", "Guarana", "Random qiwejqwiejqwiejqwiejqwieqwjeiqwje"][Random().nextInt(5)],
-    calories: [ null, 1000, 100, 200, 123 ][Random().nextInt(5)]
-  ));
+  @override
+  State<FoodSearchScreen> createState() => _FoodSearchScreenState();
+}
 
-  // const FoodSearchScreen({ super.key });
-  FoodSearchScreen({ super.key }); // TODO: Remove above comment when mockFoods is gone
+class _FoodSearchScreenState extends State<FoodSearchScreen> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+    _animation  = Tween<double>(begin: 0, end: 1).animate(_controller);
+    _controller.repeat(reverse: false);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: const FoodSearchScreenTopBar(),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 5),
-        child: ListView(
-          children: [
-            for(int i = 0; i < mockFoods.length; i++)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5, left: 17, right: 17),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color:        theme.colorScheme.onPrimary
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 200,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                mockFoods[i].name,
-                                style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary),
-                                overflow: TextOverflow.ellipsis
-                              ),
-                              if(mockFoods[i].company != null)
-                                Text(
-                                  mockFoods[i].company!,
-                                  style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
-                                  overflow: TextOverflow.ellipsis
-                                )
-                            ]
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          (mockFoods[i].calories != null) ? "${mockFoods[i].calories!.toString()}kcals" : "N/A",
-                          style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary)
-                        )
-                      ]
-                    ),
+    return BlocProvider(
+      create: (context) => FoodSearchScreenBloc(),
+      child: BlocBuilder<FoodSearchScreenBloc, FoodSearchScreenState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: const FoodSearchScreenTopBar(),
+            body: (state.foods == null)
+              ?
+              SizedBox(
+                height: double.infinity,
+                child: Center(
+                  child: AnimatedBuilder(
+                    animation: _animation,
+                    builder: (context, child) => Text(
+                      ".${'.' * (2 * _animation.value).round()}",
+                      style: theme.textTheme.titleLarge
+                    )
                   ),
                 ),
               )
-          ]
-        ),
-      )
+              :
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: ListView(
+                  children: [
+                    for(int i = 0; i < state.foods!.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5, left: 17, right: 17),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color:        theme.colorScheme.onPrimary
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        state.foods![i].name,
+                                        style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary),
+                                        overflow: TextOverflow.ellipsis
+                                      ),
+                                      if(state.foods![i].company != null)
+                                        Text(
+                                          state.foods![i].company!,
+                                          style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
+                                          overflow: TextOverflow.ellipsis
+                                        )
+                                    ]
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  (state.foods![i].calories != null) ? "${state.foods![i].calories!.toString()}kcals" : "N/A",
+                                  style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary)
+                                )
+                              ]
+                            ),
+                          ),
+                        ),
+                      )
+                  ]
+                ),
+              )
+          );
+        }
+      ),
     );
   }
 }
