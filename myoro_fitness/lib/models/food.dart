@@ -6,5 +6,7 @@ class Food {
   Food.fromJson(Map<String, dynamic> json)
     : name     = json["description"],
       company  = (json["brandName"] != null) ? json["brandName"] : null,
-      calories = (json["foodNutrients"][3]["nutrientNumber"] != null) ? int.parse(json["foodNutrients"][3]["nutrientNumber"]) : null;
+      calories = (json["foodNutrients"].length >= 3 && json["foodNutrients"][3]["nutrientNumber"] != null)
+        ? int.parse(json["foodNutrients"][3]["nutrientNumber"])
+        : null;
 }
