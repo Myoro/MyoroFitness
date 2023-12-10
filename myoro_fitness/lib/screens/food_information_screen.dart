@@ -15,7 +15,7 @@ class FoodInformationScreen extends StatelessWidget {
       appBar: const FoodInformationScreenTopBar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 40, right: 40),
+          padding: const EdgeInsets.only(left: 30, right: 30),
           child: Column(
             children: [
               Text(food.name, style: theme.textTheme.labelLarge, textAlign: TextAlign.center),
@@ -26,17 +26,19 @@ class FoodInformationScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
-                          (food.calories != null) ? food.calories!.value.toString() : "",
-                          style: theme.textTheme.labelMedium,
-                          textAlign: TextAlign.end
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          (food.calories != null) ? "Calories" : "",
-                          style: theme.textTheme.labelMedium,
-                          textAlign: TextAlign.end
-                        ),
+                        Column(
+                          children: [
+                            Text(
+                              (food.calories != null) ? food.calories!.value.toString() : "",
+                              style: theme.textTheme.labelMedium
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              (food.calories != null) ? "Calories" : "",
+                              style: theme.textTheme.labelMedium
+                            ),
+                          ]
+                        )
                       ],
                     ),
                   ),
