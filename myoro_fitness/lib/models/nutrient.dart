@@ -5,14 +5,21 @@ enum Unit {
 }
 
 class Nutrient {
-  int value;
-  Unit? unit;
+  final int value;
+  final Unit? unit;
+
+  Nutrient({ required this.value, this.unit });
 
   Nutrient.fromJson(Map<String, dynamic> json)
     : value = int.parse(json["nutrientNumber"]),
-      unit  = _getUnit(json["unitName"]);
+      unit  = getUnit(json["unitName"]);
 
-  static Unit? _getUnit(String unit) {
+  Map<String, dynamic> toJson() => {
+    "value": value,
+    "unit":  (unit != null) ? unit!.unit : null
+  };
+
+  static Unit? getUnit(String unit) {
     switch(unit) {
       case "KCAL": return Unit.kcal;
       case "G":    return Unit.gram;

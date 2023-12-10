@@ -40,6 +40,14 @@ class Database {
     ''');
     final List<Map<String, Object?>> row = await _db.query("calorie_plan");
     if(row.isEmpty) await _db.insert("calorie_plan", { "tdee": 0, "calorie_deficit": 0, "remind_user": 1 });
+
+    // added_foods table (history of what the user has added)
+    await _db.execute('''
+      CREATE TABLE IF NOT EXISTS added_foods(
+        id   INTEGER PRIMARY KEY AUTOINCREMENT,
+        food TEXT
+      );
+    ''');
   }
 
   Future<void> get init async { await _init(); }
@@ -55,6 +63,8 @@ class Database {
     if(row.isEmpty) { return {}; }
     else            { return row[0]; }
   }
+
+  void insertAddedFood(String data) async => await _db.insert("added_foods", { "food": data });
 
   void update(String table, String attribute, dynamic value, [ Map<String, String>? conditions ]) async {
     await _db.update(table, { attribute: value });

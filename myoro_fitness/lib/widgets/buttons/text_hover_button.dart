@@ -3,8 +3,14 @@ import "package:flutter/material.dart";
 class TextHoverButton extends StatefulWidget {
   final String title;
   final Function onTap;
+  final Border? border;
 
-  const TextHoverButton({ super.key, required this.title, required this.onTap });
+  const TextHoverButton({
+    super.key,
+    required this.title,
+    required this.onTap,
+    this.border
+  });
 
   @override
   State<TextHoverButton> createState() => _TextHoverButtonState();
@@ -24,7 +30,8 @@ class _TextHoverButtonState extends State<TextHoverButton> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color:        hovered ? theme.colorScheme.onPrimary : null
+          color:        hovered ? theme.colorScheme.onPrimary : null,
+          border:       widget.border
         ),
         child: Padding(
           padding: const EdgeInsets.all(5),
@@ -32,7 +39,8 @@ class _TextHoverButtonState extends State<TextHoverButton> {
             widget.title,
             style: theme.textTheme.titleMedium!.copyWith(
               color: hovered ? theme.colorScheme.primary : theme.colorScheme.onPrimary
-            )
+            ),
+            textAlign: TextAlign.center
           ),
         ),
       )

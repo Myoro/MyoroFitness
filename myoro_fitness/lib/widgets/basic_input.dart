@@ -10,6 +10,7 @@ class BasicInput extends StatefulWidget {
   final BasicInputEnum? textType;
   final bool centered;
   final String? placeholder;
+  final TextEditingController? controller;
 
   const BasicInput({
     super.key,
@@ -19,6 +20,7 @@ class BasicInput extends StatefulWidget {
     this.textType,
     this.centered = false,
     this.placeholder,
+    this.controller
   });
 
   @override
@@ -44,7 +46,7 @@ class _BasicInputState extends State<BasicInput> {
       child: TextField(
         textAlign: widget.centered ? TextAlign.center : TextAlign.start,
         style: theme.textTheme.bodyMedium,
-        controller: controller,
+        controller: (widget.controller != null) ? widget.controller : controller,
         inputFormatters: [
           (widget.textType == BasicInputEnum.digitsOnly)
             ? FilteringTextInputFormatter.digitsOnly

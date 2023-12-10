@@ -31,6 +31,8 @@ class _BasicDropdownState extends State<BasicDropdown> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return SizedBox(
       width: widget.width,
       height: widget.height,
@@ -39,12 +41,13 @@ class _BasicDropdownState extends State<BasicDropdown> {
         menuMaxHeight: 200,
         isExpanded: true,
         value: value,
+        underline: Container(height: 2, color: theme.colorScheme.onPrimary.withOpacity(0.55)),
         items: widget.items.map((item) {
           return DropdownMenuItem<String>(
             value: item,
             child: Padding(
               padding: widget.itemPadding,
-              child: Text(item, style: Theme.of(context).textTheme.bodyMedium),
+              child: Text(item, style: theme.textTheme.bodyMedium),
             )
           );
         }).toList(),

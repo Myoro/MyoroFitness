@@ -1,18 +1,20 @@
 import "package:flutter/material.dart";
+import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
 import "package:myoro_fitness/models/food.dart";
 import "package:myoro_fitness/widgets/top_bars/food_information_screen_top_bar.dart";
 
 class FoodInformationScreen extends StatelessWidget {
   final Food food;
+  final FoodSearchScreenBloc bloc;
 
-  const FoodInformationScreen({ super.key, required this.food });
+  const FoodInformationScreen({ super.key, required this.food, required this.bloc });
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
-      appBar: const FoodInformationScreenTopBar(),
+      appBar: FoodInformationScreenTopBar(food: food, bloc: bloc),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 30, right: 30),
@@ -85,14 +87,15 @@ class FoodInformationScreen extends StatelessWidget {
                 ]
               ),
               const SizedBox(height: 50),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Align(alignment: Alignment.center, child: Text("Ingredients", style: theme.textTheme.labelMedium)),
-                  for(final String ingredient in food.ingredients.ingredients)
-                    Text("- $ingredient", style: theme.textTheme.bodyMedium)
-                ]
-              )
+              if(food.ingredients != null)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(alignment: Alignment.center, child: Text("Ingredients", style: theme.textTheme.labelMedium)),
+                    for(final String ingredient in food.ingredients!.ingredients)
+                      Text("- $ingredient", style: theme.textTheme.bodyMedium)
+                  ]
+                )
             ]
           ),
         ),

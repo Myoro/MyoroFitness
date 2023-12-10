@@ -8,7 +8,17 @@ class Food {
   final Nutrient? protein;
   final Nutrient? fat;
   final Nutrient? carbohydrates;
-  final Ingredients ingredients;
+  final Ingredients? ingredients;
+
+  Food({
+    required this.name,
+    this.company,
+    this.calories,
+    this.protein,
+    this.fat,
+    this.carbohydrates,
+    this.ingredients
+  });
 
   Food.fromJson(Map<String, dynamic> json)
     : name          = json["description"],
@@ -18,4 +28,14 @@ class Food {
       fat           = (json["foodNutrients"].length >= 2) ? Nutrient.fromJson(json["foodNutrients"][1]) : null,
       carbohydrates = (json["foodNutrients"].length >= 3) ? Nutrient.fromJson(json["foodNutrients"][2]) : null,
       ingredients   = Ingredients(json["ingredients"]);
+
+  Map<String, dynamic> toJson() => {
+    "name":          name,
+    "company":       company,
+    "calories":      (calories != null) ? calories!.toJson() : null,
+    "protein":       (protein != null) ? protein!.toJson() : null,
+    "fat":           (fat != null) ? fat!.toJson() : null,
+    "carbohydrates": (carbohydrates != null) ? carbohydrates!.toJson() : null,
+    "ingredients":   ingredients.toString()
+  };
 }
