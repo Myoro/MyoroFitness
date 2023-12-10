@@ -1,8 +1,11 @@
 import "package:flutter/material.dart";
+import "package:myoro_fitness/models/food.dart";
 import "package:myoro_fitness/widgets/top_bars/food_information_screen_top_bar.dart";
 
 class FoodInformationScreen extends StatelessWidget {
-  const FoodInformationScreen({ super.key });
+  final Food food;
+
+  const FoodInformationScreen({ super.key, required this.food });
 
   @override
   Widget build(BuildContext context) {
@@ -15,58 +18,77 @@ class FoodInformationScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 40, right: 40),
           child: Column(
             children: [
-              Text("Food name here", style: theme.textTheme.labelLarge),
+              Text(food.name, style: theme.textTheme.labelLarge, textAlign: TextAlign.center),
+              const SizedBox(height: 20),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("1234 Calories", style: theme.textTheme.labelMedium),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          (food.calories != null) ? food.calories!.value.toString() : "",
+                          style: theme.textTheme.labelMedium,
+                          textAlign: TextAlign.end
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          (food.calories != null) ? "Calories" : "",
+                          style: theme.textTheme.labelMedium,
+                          textAlign: TextAlign.end
+                        ),
+                      ],
+                    ),
+                  ),
                   const Spacer(),
-                  Column(
-                    children: [
-                      Text("Macronutrients", style: theme.textTheme.titleMedium),
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              Text("Protein:", style: theme.textTheme.bodyMedium),
-                              Text("Fat:", style: theme.textTheme.bodyMedium),
-                              Text("Carbohydrates:", style: theme.textTheme.bodyMedium)
-                            ]
-                          ),
-                          Column(
-                            children: [
-                              Text("12g", style: theme.textTheme.bodyMedium),
-                              Text("34g", style: theme.textTheme.bodyMedium),
-                              Text("46g", style: theme.textTheme.bodyMedium)
-                            ]
-                          )
-                        ]
-                      )
-                    ]
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text("Protein:", style: theme.textTheme.bodyMedium),
+                                Text("Fat:", style: theme.textTheme.bodyMedium),
+                                Text("Carbs:", style: theme.textTheme.bodyMedium)
+                              ]
+                            ),
+                            const SizedBox(width: 5),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  (food.protein != null)
+                                    ? "${food.protein!.value}${(food.protein!.unit != null) ? food.protein!.unit!.unit : 'g'}"
+                                    : "N/A"
+                                  ,
+                                  style: theme.textTheme.bodyMedium
+                                ),
+                                Text(
+                                  "34g",
+                                  style: theme.textTheme.bodyMedium
+                                ),
+                                Text(
+                                  "46g",
+                                  style: theme.textTheme.bodyMedium
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    ),
                   )
                 ]
               ),
               const SizedBox(height: 50),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Other Nutritional Data", style: theme.textTheme.labelMedium),
-                  Row(
-                    children: [
-                      Column(
-                        children: [
-                          for(int i = 0; i < 6; i++)
-                            Text("<Nutrient>", style: theme.textTheme.bodyMedium),
-                        ]
-                      ),
-                      const Spacer(),
-                      Column(
-                        children: [
-                          for(int i = 0; i < 6; i++)
-                            Text("<quantity><unit>", style: theme.textTheme.bodyMedium),
-                        ]
-                      )
-                    ]
-                  )
+                  Align(alignment: Alignment.center, child: Text("Ingredients", style: theme.textTheme.labelMedium)),
+                  for(final String ingredient in food.ingredients.ingredients)
+                    Text("- $ingredient", style: theme.textTheme.bodyMedium)
                 ]
               )
             ]

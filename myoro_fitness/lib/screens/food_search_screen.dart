@@ -61,7 +61,10 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> with SingleTickerPr
                   children: [
                     for(int i = 0; i < state.foods!.length; i++)
                       InkWell(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FoodInformationScreen())),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => FoodInformationScreen(food: state.foods![i]))
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 5, left: 17, right: 17),
                           child: Container(
@@ -94,7 +97,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> with SingleTickerPr
                                   ),
                                   const Spacer(),
                                   Text(
-                                    (state.foods![i].calories != null) ? "${state.foods![i].calories!.toString()}kcals" : "N/A",
+                                    (state.foods![i].calories != null) ? "${state.foods![i].calories!.value}kcals" : "N/A",
                                     style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary)
                                   )
                                 ]
