@@ -3,6 +3,8 @@ import "package:flutter/material.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
+import "package:myoro_fitness/bloc/meal_bloc.dart";
 import "package:myoro_fitness/screens/main_screen.dart";
 import "package:window_manager/window_manager.dart";
 import "package:myoro_fitness/bloc/dark_mode_bloc.dart";
@@ -38,8 +40,12 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DarkModeBloc, DarkModeState>(
       builder: (context, darkModeState) {
-        return BlocProvider(
-          create: (context) => TDEEBloc(),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<TDEEBloc>(create: (context) => TDEEBloc()),
+            BlocProvider<MealBloc>(create: (context) => MealBloc()),
+            BlocProvider<FoodSearchScreenBloc>(create: (context) => FoodSearchScreenBloc())
+          ],
           child: MaterialApp(
             title: "MyoroFitness",
             theme: darkModeState.enabled ? dark : light,

@@ -52,13 +52,17 @@ class Database {
 
   Future<void> get init async { await _init(); }
 
-  Future<List<Map<String, Object?>>> select(String table, [ Map<String, String>? conditions ]) async {
-    final List<Map<String, Object?>> rows = await _db.query(table);
+  Future<List<Map<String, Object?>>> select(String table, [ Map<String, dynamic>? conditions ]) async {
+    final List<Map<String, Object?>> rows = await _db.query(
+      table,
+      where: (conditions != null) ? conditions.keys.first : null,
+      whereArgs: (conditions != null) ? conditions.values.first : null
+    );
     return rows;
   }
 
   // SELECT query returning only 1 row
-  Future<Map<String, Object?>> get(String table, [ Map<String, String>? conditions ]) async {
+  Future<Map<String, Object?>> get(String table, [ Map<String, dynamic>? conditions ]) async {
     final List<Map<String, Object?>> row = await select(table);
     if(row.isEmpty) { return {}; }
     else            { return row[0]; }

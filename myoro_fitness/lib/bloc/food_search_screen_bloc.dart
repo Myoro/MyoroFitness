@@ -21,17 +21,25 @@ class FoodSearchScreenState {
   final bool loading;
   final List<Food> foods;
   final List<Food> addedFoods;
+  final List<Food> mealFoods;
 
-  FoodSearchScreenState({ this.foods = const [], this.addedFoods = const [], this.loading = false });
+  FoodSearchScreenState({
+    this.loading = false,
+    this.foods = const [],
+    this.addedFoods = const [],
+    this.mealFoods = const []
+  });
 
   FoodSearchScreenState copyWith({
     bool? loading,
     List<Food>? foods,
-    List<Food>? addedFoods
+    List<Food>? addedFoods,
+    List<Food>? mealFoods
   }) => FoodSearchScreenState(
     loading: loading ?? this.loading,
     foods: foods ?? this.foods,
-    addedFoods: addedFoods ?? this.addedFoods
+    addedFoods: addedFoods ?? this.addedFoods,
+    mealFoods: mealFoods ?? this.mealFoods
   );
 }
 
@@ -39,9 +47,18 @@ class FoodSearchScreenBloc extends Bloc<FoodSearchScreenEvent, FoodSearchScreenS
   FoodSearchScreenBloc() : super(FoodSearchScreenState()) {
     on<FoodsLoadingEvent>((event, emit) => emit(state.copyWith(loading: true)));
     on<FoodsLoadedEvent>((event, emit) => emit(state.copyWith(loading: false, foods: event.foods)));
-    on<FoodAddedEvent>((event, emit) {
-      Database().insertAddedFood(jsonEncode(event.food.toJson()));
-      emit(state.copyWith(addedFoods: [ ...state.addedFoods, event.food ]));
+    on<FoodAddedEvent>((event, emit) async {
+      final String foodJson = jsonEncode(event.food.toJson());
+      final Map<String, Object?> row = await Database().get("added_foods", { "food = ?": foodJson });
+
+      if(row.isEmpty) Database().insertAddedFood(foodJson);
+
+      emit(
+        state.copyWith(
+          addedFoods: row.isEmpty ? [ ...state.addedFoods, event.food ] : state.addedFoods,
+          mealFoods: [ ...state.mealFoods, event.food ]
+        )
+      );
     });
     on<GetAddedFoodsFromDatabase>((event, emit) async {
       final List<Map<String, Object?>> rows = await Database().select("added_foods");

@@ -1,13 +1,11 @@
 import "package:flutter/material.dart";
-import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
 import "package:myoro_fitness/models/food.dart";
 import "package:myoro_fitness/screens/food_information_screen.dart";
 
 class FoodButton extends StatelessWidget {
   final Food food;
-  final FoodSearchScreenBloc bloc;
 
-  const FoodButton({ super.key, required this.food, required this.bloc });
+  const FoodButton({ super.key, required this.food });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +14,7 @@ class FoodButton extends StatelessWidget {
     return InkWell(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => FoodInformationScreen(food: food, bloc: bloc))
+        MaterialPageRoute(builder: (context) => FoodInformationScreen(food: food))
       ),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 17, right: 17),

@@ -1,13 +1,15 @@
 import "package:flutter/material.dart";
-import "package:flutter/widgets.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
 import "package:myoro_fitness/api.dart";
+import "package:myoro_fitness/bloc/meal_bloc.dart";
 import "package:myoro_fitness/widgets/basic_input.dart";
 import "package:myoro_fitness/screens/custom_food_screen.dart";
 
 class FoodSearchScreenTopBar extends StatelessWidget implements PreferredSizeWidget {
-  const FoodSearchScreenTopBar({ super.key });
+  final FoodSearchScreenState foodSearchScreenBlocState;
+
+  const FoodSearchScreenTopBar({ super.key, required this.foodSearchScreenBlocState });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -23,7 +25,10 @@ class FoodSearchScreenTopBar extends StatelessWidget implements PreferredSizeWid
       title: Row(
         children: [
           InkWell(
-            onTap: () => print("Add meal"),
+            onTap: () {
+              BlocProvider.of<MealBloc>(context).add(AddFoodsToMealEvent(foodSearchScreenBlocState.mealFoods));
+              Navigator.pop(context);
+            },
             customBorder: const CircleBorder(),
             child: Icon(Icons.check, color: theme.colorScheme.onPrimary, size: 40)
           ),
