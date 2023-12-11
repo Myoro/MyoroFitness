@@ -119,8 +119,8 @@ class _TDEEModalState extends State<TDEEModal> {
                 showYes: (tdee == "Not complete") ? false : true,
                 noText: "Exit",
                 content: Container(
-                  height: 300,
-                  constraints: const BoxConstraints(maxHeight: 300),
+                  height: 244,
+                  constraints: const BoxConstraints(maxHeight: 244),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
