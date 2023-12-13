@@ -5,7 +5,7 @@ import "package:myoro_fitness/widgets/buttons/text_hover_button.dart";
 class BasicModal extends StatelessWidget {
   final String title;
   final Widget content;
-  final Function onYes;
+  final Function? onYes;
   final Function? onNo;
   final bool showYes;
   final String noText;
@@ -14,7 +14,7 @@ class BasicModal extends StatelessWidget {
     super.key,
     required this.title,
     required this.content,
-    required this.onYes,
+    this.onYes,
     this.onNo,
     this.showYes = true,
     this.noText = "No",
@@ -57,7 +57,7 @@ class BasicModal extends StatelessWidget {
               if(showYes)
                 TextHoverButton(
                   title: "Yes",
-                  onTap: onYes
+                  onTap: () { if(onYes != null) onYes!(); }
                 ),
               const SizedBox(width: 10),
               TextHoverButton(

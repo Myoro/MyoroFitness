@@ -3,6 +3,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
 import "package:myoro_fitness/api.dart";
 import "package:myoro_fitness/bloc/meal_bloc.dart";
+import "package:myoro_fitness/screens/barcode_scanner_screen.dart";
 import "package:myoro_fitness/widgets/basic_input.dart";
 import "package:myoro_fitness/screens/custom_food_screen.dart";
 
@@ -42,7 +43,7 @@ class FoodSearchScreenTopBar extends StatelessWidget implements PreferredSizeWid
             width:    MediaQuery.of(context).size.width - 250,
             height:   45,
             centered: true,
-            placeholder: "Search for Foods",
+            placeholder: "Search",
             onChanged: (value) async {
               if(value.length > 0) {
                 BlocProvider.of<FoodSearchScreenBloc>(context).add(FoodsLoadingEvent());
@@ -54,7 +55,10 @@ class FoodSearchScreenTopBar extends StatelessWidget implements PreferredSizeWid
           ),
           const Spacer(),
           InkWell(
-            onTap: () => print("QR Code Lookup"), // TODO
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const BarcodeScannerScreen())
+            ),
             customBorder: const CircleBorder(),
             child: Padding(
               padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
