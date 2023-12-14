@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 
 class CustomFoodScreenTopBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomFoodScreenTopBar({ super.key });
+  final Function addFoodToPendingMeal;
+
+  const CustomFoodScreenTopBar({ super.key, required this.addFoodToPendingMeal });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -16,7 +18,7 @@ class CustomFoodScreenTopBar extends StatelessWidget implements PreferredSizeWid
         children: [
           const Spacer(),
           InkWell(
-            onTap: () => print("Add meal"),
+            onTap: () => addFoodToPendingMeal(),
             customBorder: const CircleBorder(),
             child: Icon(Icons.check, color: theme.colorScheme.onPrimary, size: 40)
           ),

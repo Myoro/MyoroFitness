@@ -1,8 +1,13 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
+import "dart:io";
+
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/meal_bloc.dart";
 import "package:myoro_fitness/bloc/tdee_bloc.dart";
 import "package:myoro_fitness/database.dart";
+import "package:myoro_fitness/models/food.dart";
 import "package:myoro_fitness/widgets/cards/meal_card.dart";
 import "package:myoro_fitness/widgets/modals/tdee_modal.dart";
 
@@ -17,7 +22,6 @@ class _CaloriesPageState extends State<CaloriesPage> {
   bool isModalShown = false;
 
   int calorieDeficit = 0;
-  int caloriesConsumed = 0;
 
   Map<String, dynamic> meals = { "Breakfast": [], "Lunch": [], "Dinner": [], "Snacks": [] };
 
@@ -43,13 +47,39 @@ class _CaloriesPageState extends State<CaloriesPage> {
     });
 
     return BlocBuilder<TDEEBloc, TDEEState>(
-      builder: (context, state) {
-        if(state.calorieDeficit != null) {
-          Future.delayed(Duration.zero, () => setState(() { calorieDeficit = state.calorieDeficit!; }));
-        }
+      builder: (context, tdeeState) {
+        if(tdeeState.calorieDeficit != null)
+          Future.delayed(Duration.zero, () => setState(() { calorieDeficit = tdeeState.calorieDeficit!; }));
 
         return BlocBuilder<MealBloc, MealState>(
           builder: (context, state) {
+            int getCaloriesConsumed(List<Food> foods) {
+              int resultado = 0;
+              for(final Food food in foods)
+                if(food.calories != null)
+                  resultado += food.calories!.value;
+              return resultado;
+            }
+
+            final int breakfastCaloriesConsumed = getCaloriesConsumed(state.breakfast.foods);
+            final int lunchCaloriesConsumed     = getCaloriesConsumed(state.lunch.foods);
+            final int dinnerCaloriesConsumed    = getCaloriesConsumed(state.dinner.foods);
+            final int snacksCaloriesConsumed    = getCaloriesConsumed(state.snacks.foods);
+            final int caloriesConsumed          = breakfastCaloriesConsumed + lunchCaloriesConsumed + dinnerCaloriesConsumed + snacksCaloriesConsumed;
+
+            late final Color calorieBarColor;
+
+            double calorieBarWidth = 0;
+            if(tdeeState.calorieDeficit != null) {
+              final double calorieDeficitProportionConsumed = caloriesConsumed / tdeeState.calorieDeficit!;
+
+              if(Platform.isAndroid || Platform.isIOS)
+                calorieBarWidth = (MediaQuery.of(context).size.width - 17 * 2) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
+              else
+                calorieBarWidth = (MediaQuery.of(context).size.width - 110) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
+              calorieBarColor = calorieDeficitProportionConsumed < 1 ? theme.colorScheme.onPrimary : Colors.red;
+            }
+
             return Expanded(
               child: Container(
                 color: theme.colorScheme.primary,
@@ -59,24 +89,31 @@ class _CaloriesPageState extends State<CaloriesPage> {
                       padding: const EdgeInsets.only(left: 17, right: 17),
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 10,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color:        theme.colorScheme.onPrimary
-                                  )
-                                )
+                          if(tdeeState.calorieDeficit != null) ...[
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: calorieBarColor,
+                                  width: 2
+                                ),
+                                borderRadius: BorderRadius.circular(10)
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    color: calorieBarColor,
+                                    width: calorieBarWidth
+                                  )
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                          ],
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              if(MediaQuery.of(context).size.width > 325)
+                              if(tdeeState.calorieDeficit != null && MediaQuery.of(context).size.width > 325)
                                 Expanded(
                                   child: Row(
                                     children: [
@@ -85,7 +122,10 @@ class _CaloriesPageState extends State<CaloriesPage> {
                                     ]
                                   ),
                                 ),
-                              Text(MediaQuery.of(context).size.width > 200 ? "Calories consumed: $caloriesConsumed" : "$caloriesConsumed cals", style: theme.textTheme.bodySmall)
+                              Text(
+                                MediaQuery.of(context).size.width > 200 ? "Calories consumed: $caloriesConsumed" : "$caloriesConsumed cals",
+                                style: theme.textTheme.bodySmall
+                              )
                             ]
                           ),
                         ]

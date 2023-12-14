@@ -38,7 +38,7 @@ class Database {
         remind_user     INTEGER
       );
     ''');
-    final List<Map<String, Object?>> row = await _db.query("calorie_plan");
+    List<Map<String, Object?>> row = await _db.query("calorie_plan");
     if(row.isEmpty) await _db.insert("calorie_plan", { "tdee": 0, "calorie_deficit": 0, "remind_user": 1 });
 
     // added_foods table (history of what the user has added)
@@ -48,6 +48,22 @@ class Database {
         food TEXT
       );
     ''');
+
+    // Foods
+    await _db.execute('''
+      CREATE TABLE IF NOT EXISTS meals(
+        id        INTEGER PRIMARY KEY AUTOINCREMENT,
+        meal_name TEXT,
+        foods     TEXT
+      );
+    ''');
+    row = await _db.query("meals");
+    if(row.isEmpty) {
+      await _db.insert("meals", { "meal_name": "Breakfast", "foods": "[]" });
+      await _db.insert("meals", { "meal_name": "Lunch", "foods": "[]" });
+      await _db.insert("meals", { "meal_name": "Dinner", "foods": "[]" });
+      await _db.insert("meals", { "meal_name": "Snacks", "foods": "[]" });
+    }
   }
 
   Future<void> get init async { await _init(); }
@@ -68,11 +84,9 @@ class Database {
     else            { return row[0]; }
   }
 
-  void insertAddedFood(String data) async => await _db.insert("added_foods", { "food": data });
+  Future<void> insert(String table, Map<String, dynamic> data) async => await _db.insert(table, data);
 
-  void update(String table, String attribute, dynamic value, [ Map<String, String>? conditions ]) async {
-    await _db.update(table, { attribute: value });
-  }
+  Future<void> update(String table, String attribute, dynamic value, [ Map<String, String>? conditions ]) async => await _db.update(table, { attribute: value });
 
   Future<void> resetDatabase() async {
     if(!Platform.isAndroid && !Platform.isIOS) sqflite.databaseFactory = databaseFactoryFfi;

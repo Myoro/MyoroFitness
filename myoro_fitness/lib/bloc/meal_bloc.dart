@@ -1,6 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:myoro_fitness/database.dart";
 import "package:myoro_fitness/models/food.dart";
 import "package:myoro_fitness/models/meal.dart";
 
@@ -70,6 +71,8 @@ class MealBloc extends Bloc<MealEvent, MealState> {
   }
 
   MealState emitToMeal(String mealName, dynamic emitData) {
+    Database().update("meals", "foods", emitData.join(','));
+
     switch(state.selectedMeal) {
       case "Breakfast": return state.copyWith(breakfast: Meal(name: "Breakfast", foods: emitData));
       case "Lunch":     return state.copyWith(breakfast: Meal(name: "Lunch", foods: emitData));
@@ -81,7 +84,9 @@ class MealBloc extends Bloc<MealEvent, MealState> {
 
   MealBloc() : super(MealState()) {
     on<SetSelectedMealEvent>((event, emit) => emit(state.copyWith(selectedMeal: event.meal)));
-    on<AddFoodsToMealEvent>((event, emit) => emit(emitToMeal(state.selectedMeal!, event.foods)));
+
+    on<AddFoodsToMealEvent>((event, emit) => emit(emitToMeal(state.selectedMeal!, [ ...getMeal(state.selectedMeal!).foods, ...event.foods ])));
+
     on<EditFoodEvent>((event, emit) {
       List<Food> foods = getMeal(event.meal).foods;
       if(event.mode == EditFoodEventEnum.edit) foods[event.index] = event.food;

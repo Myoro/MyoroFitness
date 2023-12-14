@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/meal_bloc.dart";
@@ -15,6 +17,9 @@ class MealCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+
+    int mealCalorieTotal = 0;
+    for(final Food food in meal.foods) mealCalorieTotal += (food.calories != null) ? food.calories!.value : 0;
 
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 17, right: 17),
@@ -114,29 +119,15 @@ class MealCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if(MediaQuery.of(context).size.width > 350)
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Text(
-                            "Recommended: 1234",
-                            style:    theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary)
-                          ),
-                          const Spacer(),
-                        ]
-                      ),
-                    ),
-                  Expanded(
-                    child: Align(
-                      alignment: (MediaQuery.of(context).size.width > 350) ? Alignment.centerRight : Alignment.center,
-                      child: Text(
-                        "$mealName Total: 12345",
-                        style: theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.primary),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis
-                      ),
-                    ),
+                  const Spacer(),
+                  Text(
+                    "$mealName Total: $mealCalorieTotal",
+                    style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.right
                   ),
+                  const SizedBox(width: 10)
                 ]
               )
             ]

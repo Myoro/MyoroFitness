@@ -85,7 +85,7 @@ class _CustomFoodScreenState extends State<CustomFoodScreen> {
     }
 
     return Scaffold(
-      appBar: CustomFoodScreenTopBar(),
+      appBar: CustomFoodScreenTopBar(addFoodToPendingMeal: addFoodToPendingMeal),
       body: Column(
         children: [
           for(final Map<String, dynamic> row in rows)

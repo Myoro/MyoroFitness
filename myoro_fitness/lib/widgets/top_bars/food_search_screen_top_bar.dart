@@ -1,3 +1,5 @@
+import "dart:io";
+
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
@@ -54,21 +56,24 @@ class FoodSearchScreenTopBar extends StatelessWidget implements PreferredSizeWid
             }
           ),
           const Spacer(),
-          InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const BarcodeScannerScreen())
-            ),
-            customBorder: const CircleBorder(),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
-              child: Image.asset(
-                "assets/img/Barcode${(theme.brightness == Brightness.dark) ? 'Dark' : 'Light'}.png",
-                width: 40,
-                height: 40
+          if(Platform.isAndroid || Platform.isIOS)
+            InkWell(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BarcodeScannerScreen())
               ),
-            )
-          ),
+              customBorder: const CircleBorder(),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                child: Image.asset(
+                  "assets/img/Barcode${(theme.brightness == Brightness.dark) ? 'Dark' : 'Light'}.png",
+                  width: 40,
+                  height: 40
+                ),
+              )
+            ),
+          if(!Platform.isAndroid || !Platform.isIOS)
+            const Spacer(),
           InkWell(
             onTap: () => Navigator.push(
               context,
