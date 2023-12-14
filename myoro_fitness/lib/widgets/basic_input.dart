@@ -1,7 +1,9 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
-enum BasicInputEnum { digitsOnly }
+enum BasicInputEnum { digitsOnly, decimal }
 
 class BasicInput extends StatefulWidget {
   final double? width;
@@ -40,6 +42,14 @@ class _BasicInputState extends State<BasicInput> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
+    late final dynamic textType;
+    if(widget.textType == BasicInputEnum.digitsOnly)
+      textType = FilteringTextInputFormatter.digitsOnly;
+    else if(widget.textType == BasicInputEnum.decimal)
+      textType = FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'));
+    else
+      textType = FilteringTextInputFormatter.allow(RegExp('.*'));
+
     return SizedBox(
       height: widget.height,
       width: widget.width,
@@ -47,11 +57,7 @@ class _BasicInputState extends State<BasicInput> {
         textAlign: widget.centered ? TextAlign.center : TextAlign.start,
         style: theme.textTheme.bodyMedium,
         controller: (widget.controller != null) ? widget.controller : controller,
-        inputFormatters: [
-          (widget.textType == BasicInputEnum.digitsOnly)
-            ? FilteringTextInputFormatter.digitsOnly
-            : FilteringTextInputFormatter.allow(RegExp('.*'))
-        ],
+        inputFormatters: [ textType ],
         onChanged: (value) { if(widget.onChanged != null) widget.onChanged!(value); },
         decoration: InputDecoration(
           focusedBorder: UnderlineInputBorder(

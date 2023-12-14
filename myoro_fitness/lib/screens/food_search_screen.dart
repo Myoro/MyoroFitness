@@ -6,7 +6,9 @@ import "package:myoro_fitness/widgets/buttons/food_button.dart";
 import "package:myoro_fitness/widgets/top_bars/food_search_screen_top_bar.dart";
 
 class FoodSearchScreen extends StatefulWidget {
-  const FoodSearchScreen({ super.key });
+  final String selectedMeal;
+
+  const FoodSearchScreen({ super.key, required this.selectedMeal });
 
   @override
   State<FoodSearchScreen> createState() => _FoodSearchScreenState();

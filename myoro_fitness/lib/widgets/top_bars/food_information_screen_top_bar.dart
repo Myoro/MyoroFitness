@@ -1,23 +1,21 @@
 import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
 import "package:myoro_fitness/models/food.dart";
 
 class FoodInformationScreenTopBar extends StatelessWidget implements PreferredSizeWidget {
   final Food food;
+  final Function addFoodToPendingMeal;
 
-  const FoodInformationScreenTopBar({ super.key, required this.food });
+  const FoodInformationScreenTopBar({
+    super.key,
+    required this.food,
+    required this.addFoodToPendingMeal
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
-    void addFoodToPendingMeal() {
-      BlocProvider.of<FoodSearchScreenBloc>(context).add(FoodAddedEvent(food));
-      Navigator.pop(context);
-    }
-
     return AppBar(
       title: Row(
         children: [
