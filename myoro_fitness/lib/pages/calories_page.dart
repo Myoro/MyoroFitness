@@ -57,7 +57,7 @@ class _CaloriesPageState extends State<CaloriesPage> {
               int resultado = 0;
               for(final Food food in foods)
                 if(food.calories != null)
-                  resultado += food.calories!.value;
+                  resultado += int.parse((food.calories!.value * food.serving).toStringAsFixed(0));
               return resultado;
             }
 
@@ -74,7 +74,7 @@ class _CaloriesPageState extends State<CaloriesPage> {
               final double calorieDeficitProportionConsumed = caloriesConsumed / tdeeState.calorieDeficit!;
 
               if(Platform.isAndroid || Platform.isIOS)
-                calorieBarWidth = (MediaQuery.of(context).size.width - 17 * 2) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
+                calorieBarWidth = (MediaQuery.of(context).size.width - 38) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
               else
                 calorieBarWidth = (MediaQuery.of(context).size.width - 110) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
               calorieBarColor = calorieDeficitProportionConsumed < 1 ? theme.colorScheme.onPrimary : Colors.red;
