@@ -25,6 +25,7 @@ class _TDEEModalState extends State<TDEEModal> {
         style: theme.textTheme.titleMedium,
         textAlign: TextAlign.center
       ),
+      onNo: () => Database().update("calorie_plan", "remind_user", 0),
       onYes: () {
         Navigator.pop(context);
 

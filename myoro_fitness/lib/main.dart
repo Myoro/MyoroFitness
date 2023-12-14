@@ -5,6 +5,7 @@ import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
 import "package:myoro_fitness/bloc/meal_bloc.dart";
+import "package:myoro_fitness/bloc/page_control_bloc.dart";
 import "package:myoro_fitness/screens/main_screen.dart";
 import "package:window_manager/window_manager.dart";
 import "package:myoro_fitness/bloc/dark_mode_bloc.dart";
@@ -44,7 +45,8 @@ class App extends StatelessWidget {
           providers: [
             BlocProvider<TDEEBloc>(create: (context) => TDEEBloc()),
             BlocProvider<MealBloc>(create: (context) => MealBloc()),
-            BlocProvider<FoodSearchScreenBloc>(create: (context) => FoodSearchScreenBloc())
+            BlocProvider<FoodSearchScreenBloc>(create: (context) => FoodSearchScreenBloc()),
+            BlocProvider<PageControlBloc>(create: (context) => PageControlBloc())
           ],
           child: MaterialApp(
             title: "MyoroFitness",

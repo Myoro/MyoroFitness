@@ -77,7 +77,6 @@ class Database {
     return rows;
   }
 
-  // SELECT query returning only 1 row
   Future<Map<String, Object?>> get(String table, [ Map<String, dynamic>? conditions ]) async {
     final List<Map<String, Object?>> row = await select(table);
     if(row.isEmpty) { return {}; }
