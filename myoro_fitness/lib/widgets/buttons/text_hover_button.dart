@@ -4,12 +4,14 @@ class TextHoverButton extends StatefulWidget {
   final String title;
   final Function onTap;
   final Border? border;
+  final double? width;
 
   const TextHoverButton({
     super.key,
     required this.title,
     required this.onTap,
-    this.border
+    this.border,
+    this.width
   });
 
   @override
@@ -28,6 +30,7 @@ class _TextHoverButtonState extends State<TextHoverButton> {
       onHover: (hovered) => setState(() { this.hovered = hovered; }),
       splashColor: Colors.transparent,
       child: Container(
+        width: widget.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color:        hovered ? theme.colorScheme.onPrimary : null,
