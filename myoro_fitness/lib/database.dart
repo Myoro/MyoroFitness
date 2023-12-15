@@ -64,6 +64,16 @@ class Database {
       await _db.insert("meals", { "meal_name": "Dinner", "foods": "[]" });
       await _db.insert("meals", { "meal_name": "Snacks", "foods": "[]" });
     }
+
+    // Streaks
+    await _db.execute('''
+      CREATE TABLE IF NOT EXISTS streak_entries(
+        id        INTEGER PRIMARY KEY AUTOINCREMENT,
+        calories  INTEGER,
+        weight    INTEGER,
+        exercised INTEGER
+      );
+    ''');
   }
 
   Future<void> get init async { await _init(); }

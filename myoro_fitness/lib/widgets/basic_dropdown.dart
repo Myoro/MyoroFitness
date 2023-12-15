@@ -6,6 +6,8 @@ class BasicDropdown extends StatefulWidget {
   final Function? onChanged;
   final double? width;
   final double height;
+  final bool centered;
+  final TextStyle? textStyle;
 
   const BasicDropdown({
     super.key,
@@ -13,7 +15,9 @@ class BasicDropdown extends StatefulWidget {
     this.itemPadding = EdgeInsets.zero,
     this.onChanged,
     this.width,
-    this.height = 40
+    this.height = 40,
+    this.centered = false,
+    this.textStyle
   });
 
   @override
@@ -44,10 +48,14 @@ class _BasicDropdownState extends State<BasicDropdown> {
         underline: Container(height: 2, color: theme.colorScheme.onPrimary.withOpacity(0.55)),
         items: widget.items.map((item) {
           return DropdownMenuItem<String>(
+            alignment: widget.centered ? Alignment.center : AlignmentDirectional.centerStart,
             value: item,
             child: Padding(
               padding: widget.itemPadding,
-              child: Text(item, style: theme.textTheme.bodyMedium),
+              child: Text(
+                item,
+                style: (widget.textStyle == null) ? theme.textTheme.bodyMedium : widget.textStyle
+              ),
             )
           );
         }).toList(),
