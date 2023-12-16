@@ -71,7 +71,8 @@ class Database {
         id        INTEGER PRIMARY KEY AUTOINCREMENT,
         calories  INTEGER,
         weight    INTEGER,
-        exercised INTEGER
+        exercised INTEGER,
+        date      TEXT
       );
     ''');
   }
@@ -88,14 +89,21 @@ class Database {
   }
 
   Future<Map<String, Object?>> get(String table, [ Map<String, dynamic>? conditions ]) async {
-    final List<Map<String, Object?>> row = await select(table);
+    final List<Map<String, Object?>> row = await select(table, conditions);
     if(row.isEmpty) { return {}; }
     else            { return row[0]; }
   }
 
   Future<void> insert(String table, Map<String, dynamic> data) async => await _db.insert(table, data);
 
-  Future<void> update(String table, String attribute, dynamic value, [ Map<String, String>? conditions ]) async => await _db.update(table, { attribute: value });
+  Future<void> update(String table, String attribute, dynamic value, [ Map<String, String>? conditions ]) async {
+    await _db.update(
+      table,
+      { attribute: value },
+      where: (conditions != null) ? conditions.keys.first : null,
+      whereArgs: [ (conditions != null) ? conditions.values.first : null ]
+    );
+  }
 
   Future<void> resetDatabase() async {
     if(!Platform.isAndroid && !Platform.isIOS) sqflite.databaseFactory = databaseFactoryFfi;

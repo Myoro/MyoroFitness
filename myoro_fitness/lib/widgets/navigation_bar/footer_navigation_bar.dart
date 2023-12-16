@@ -28,11 +28,6 @@ class _FooterNavigationBarState extends State<FooterNavigationBar> {
         "primary":  "assets/img/Calories${darkMode ? 'Dark' : 'Light'}.png",
         "selected": "assets/img/Calories${darkMode ? 'Light' : 'Dark'}.png",
         "onTap":    () => BlocProvider.of<PageControlBloc>(context).add(ChangePageEvent(PageControlEnum.calories))
-      },
-      {
-        "primary":  "assets/img/Workouts${darkMode ? 'Dark' : 'Light'}.png",
-        "selected": "assets/img/Workouts${darkMode ? 'Light' : 'Dark'}.png",
-        "onTap":    () => BlocProvider.of<PageControlBloc>(context).add(ChangePageEvent(PageControlEnum.workouts))
       }
     ];
 
