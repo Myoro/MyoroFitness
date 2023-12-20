@@ -43,12 +43,12 @@ class Food {
   );
 
   Food.fromJson(Map<String, dynamic> json)
-    : name          = json["description"],
-      company       = json["brandName"],
-      calories      = (json["foodNutrients"].length >= 4) ? Nutrient.fromJson(json["foodNutrients"][3]) : null,
-      protein       = (json["foodNutrients"].length > 0)  ? Nutrient.fromJson(json["foodNutrients"][0]) : null,
-      fat           = (json["foodNutrients"].length >= 2) ? Nutrient.fromJson(json["foodNutrients"][1]) : null,
-      carbohydrates = (json["foodNutrients"].length >= 3) ? Nutrient.fromJson(json["foodNutrients"][2]) : null,
+    : name          = json["name"],
+      company       = json["company"],
+      calories      = (json["calories"] != null) ? Nutrient.fromJson(json["calories"]) : null,
+      protein       = (json["protein"] != null) ? Nutrient.fromJson(json["protein"]) : null,
+      fat           = (json["fat"] != null) ? Nutrient.fromJson(json["fat"]) : null,
+      carbohydrates = (json["carbohydrates"] != null) ? Nutrient.fromJson(json["carbohydrates"]) : null,
       ingredients   = Ingredients(json["ingredients"]),
       serving       = 1;
 

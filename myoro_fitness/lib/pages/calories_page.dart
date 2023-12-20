@@ -41,7 +41,7 @@ class _CaloriesPageState extends State<CaloriesPage> {
         setState(() { isModalShown = true; });
         showDialog(
           context: context,
-          builder: (context) => const TDEEModal()
+          builder: (context) => const TDEEModal(mainDescription: "Would you like to set a calorie plan?")
         );
       }
     });

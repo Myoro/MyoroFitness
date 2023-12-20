@@ -7,7 +7,9 @@ import "package:myoro_fitness/widgets/basic_input.dart";
 import "package:myoro_fitness/widgets/basic_dropdown.dart";
 
 class TDEEModal extends StatefulWidget {
-  const TDEEModal({ super.key });
+  final String mainDescription;
+
+  const TDEEModal({ super.key, required this.mainDescription });
 
   @override
   State<TDEEModal> createState() => _TDEEModalState();
@@ -21,7 +23,7 @@ class _TDEEModalState extends State<TDEEModal> {
     return BasicModal(
       title: "Calorie Plan",
       content: Text(
-        "Would you like to set a calorie plan?",
+        widget.mainDescription,
         style: theme.textTheme.titleMedium,
         textAlign: TextAlign.center
       ),

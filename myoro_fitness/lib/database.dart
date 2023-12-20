@@ -12,7 +12,7 @@ class Database {
 
   Database._internal();
 
-  Future<String> getDatabasePath() async {
+  Future<String> _getDatabasePath() async {
     Directory applicationRootDirectory;
 
     if(Platform.isAndroid || Platform.isIOS) {
@@ -27,7 +27,7 @@ class Database {
   Future<void> _init() async {
     if(!Platform.isAndroid && !Platform.isIOS) sqflite.databaseFactory = databaseFactoryFfi;
 
-    _db = await sqflite.openDatabase(await getDatabasePath());
+    _db = await sqflite.openDatabase(await _getDatabasePath());
 
     // calorie_plan table
     await _db.execute('''
@@ -106,6 +106,6 @@ class Database {
 
   Future<void> resetDatabase() async {
     if(!Platform.isAndroid && !Platform.isIOS) sqflite.databaseFactory = databaseFactoryFfi;
-    await sqflite.deleteDatabase(await getDatabasePath());
+    await sqflite.deleteDatabase(await _getDatabasePath());
   }
 }
