@@ -15,8 +15,11 @@ jobs:
         with:
           channel: "beta"
 
+      - name: Display Flutter version
+        run: flutter --version
+
       - name: Install Flutter dependencies
-        run: flutter pub get
+        run: cd myorofitness && flutter pub get
 
       - name: Run tests
         run: flutter test test/Unit\ Tests
