@@ -19,7 +19,7 @@ jobs:
         run: flutter --version
 
       - name: Install Flutter dependencies
-        run: cd myorofitness && flutter pub get
+        run: cd myoro_fitness && flutter pub get
 
       - name: Run tests
         run: flutter test test/Unit\ Tests
