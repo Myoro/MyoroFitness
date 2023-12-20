@@ -1,8 +1,22 @@
 name: Unit tests
+
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Start
-        run: echo "Workflow did nothing"
+      - name: Get MyoroFitness code
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test test/Unit\ Tests
