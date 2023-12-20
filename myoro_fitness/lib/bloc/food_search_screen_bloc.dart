@@ -49,7 +49,7 @@ class FoodSearchScreenBloc extends Bloc<FoodSearchScreenEvent, FoodSearchScreenS
     on<FoodsLoadedEvent>((event, emit) => emit(state.copyWith(loading: false, foods: event.foods)));
     on<FoodAddedEvent>((event, emit) async {
       final String foodJson = jsonEncode(event.food.toJson());
-      final Map<String, Object?> row = await Database().get("added_foods", { "food = ?": foodJson });
+      final Map<String, Object?> row = await Database().get("added_foods", { "food": foodJson });
 
       if(row.isEmpty) Database().insert("added_foods", { "food": foodJson });
 

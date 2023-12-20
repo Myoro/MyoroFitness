@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:intl/intl.dart";
 import "package:myoro_fitness/bloc/dark_mode_bloc.dart";
 import "package:myoro_fitness/database.dart";
 

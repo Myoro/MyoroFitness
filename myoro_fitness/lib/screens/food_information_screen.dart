@@ -115,14 +115,14 @@ class _FoodInformationScreenState extends State<FoodInformationScreen> {
                                     style: theme.textTheme.bodyMedium
                                   ),
                                   Text(
-                                    (widget.food.protein != null)
+                                    (widget.food.fat != null)
                                       ? "${widget.food.fat!.value}${(widget.food.fat!.unit != null) ? widget.food.fat!.unit!.unit : 'g'}"
                                       : "N/A"
                                     ,
                                     style: theme.textTheme.bodyMedium
                                   ),
                                   Text(
-                                    (widget.food.protein != null)
+                                    (widget.food.carbohydrates != null)
                                       ? "${widget.food.carbohydrates!.value}${(widget.food.carbohydrates!.unit != null) ? widget.food.carbohydrates!.unit!.unit : 'g'}"
                                       : "N/A"
                                     ,

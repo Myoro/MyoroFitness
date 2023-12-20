@@ -4,6 +4,7 @@ import "dart:io";
 
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:intl/intl.dart";
 import "package:myoro_fitness/bloc/meal_bloc.dart";
 import "package:myoro_fitness/bloc/tdee_bloc.dart";
 import "package:myoro_fitness/database.dart";
@@ -19,11 +20,15 @@ class CaloriesPage extends StatefulWidget {
 }
 
 class _CaloriesPageState extends State<CaloriesPage> {
+  int breakfastCaloriesConsumed = 0;
+  int lunchCaloriesConsumed = 0;
+  int dinnerCaloriesConsumed = 0;
+  int snacksCaloriesConsumed = 0;
+  int caloriesConsumed = 0;
+  Color calorieBarColor = Colors.transparent;
+  double calorieBarWidth = 0;
   bool isModalShown = false;
-
   int calorieDeficit = 0;
-
-  Map<String, dynamic> meals = { "Breakfast": [], "Lunch": [], "Dinner": [], "Snacks": [] };
 
   @override
   void initState() {
@@ -53,32 +58,38 @@ class _CaloriesPageState extends State<CaloriesPage> {
 
         return BlocBuilder<MealBloc, MealState>(
           builder: (context, state) {
-            int getCaloriesConsumed(List<Food> foods) {
-              int resultado = 0;
-              for(final Food food in foods)
-                if(food.calories != null)
-                  resultado += int.parse((food.calories!.value * food.serving).toStringAsFixed(0));
-              return resultado;
-            }
+            // Checking if we need to reset the meal foods
+            Database().get("meal_date").then((row) {
+              int getCaloriesConsumed(List<Food> foods) {
+                int resultado = 0;
+                for(final Food food in foods)
+                  if(food.calories != null)
+                    resultado += int.parse((food.calories!.value * food.serving).toStringAsFixed(0));
+                return resultado;
+              }
 
-            final int breakfastCaloriesConsumed = getCaloriesConsumed(state.breakfast.foods);
-            final int lunchCaloriesConsumed     = getCaloriesConsumed(state.lunch.foods);
-            final int dinnerCaloriesConsumed    = getCaloriesConsumed(state.dinner.foods);
-            final int snacksCaloriesConsumed    = getCaloriesConsumed(state.snacks.foods);
-            final int caloriesConsumed          = breakfastCaloriesConsumed + lunchCaloriesConsumed + dinnerCaloriesConsumed + snacksCaloriesConsumed;
+              if(row["date"] != DateFormat("dd-MM-yyyy").format(DateTime.now())) {
+                Database().update("meal_date", "date", DateFormat("dd-MM-yyyy").format(DateTime.now()));
+              } else {
+                breakfastCaloriesConsumed = getCaloriesConsumed(state.breakfast.foods);
+                lunchCaloriesConsumed = getCaloriesConsumed(state.lunch.foods);
+                dinnerCaloriesConsumed = getCaloriesConsumed(state.dinner.foods);
+                snacksCaloriesConsumed = getCaloriesConsumed(state.snacks.foods);
+                caloriesConsumed = breakfastCaloriesConsumed + lunchCaloriesConsumed + dinnerCaloriesConsumed + snacksCaloriesConsumed;
+              }
 
-            late final Color calorieBarColor;
+              if(tdeeState.calorieDeficit != null) {
+                final double calorieDeficitProportionConsumed = caloriesConsumed / tdeeState.calorieDeficit!;
 
-            double calorieBarWidth = 0;
-            if(tdeeState.calorieDeficit != null) {
-              final double calorieDeficitProportionConsumed = caloriesConsumed / tdeeState.calorieDeficit!;
+                if(Platform.isAndroid || Platform.isIOS)
+                  calorieBarWidth = (MediaQuery.of(context).size.width - 38) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
+                else
+                  calorieBarWidth = (MediaQuery.of(context).size.width - 110) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
+                calorieBarColor = calorieDeficitProportionConsumed < 1 ? theme.colorScheme.onPrimary : Colors.red;
+              }
 
-              if(Platform.isAndroid || Platform.isIOS)
-                calorieBarWidth = (MediaQuery.of(context).size.width - 38) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
-              else
-                calorieBarWidth = (MediaQuery.of(context).size.width - 110) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
-              calorieBarColor = calorieDeficitProportionConsumed < 1 ? theme.colorScheme.onPrimary : Colors.red;
-            }
+              setState(() {});
+            });
 
             return Expanded(
               child: Container(

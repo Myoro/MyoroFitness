@@ -1,4 +1,5 @@
 import "dart:io";
+import "package:intl/intl.dart";
 import "package:sqflite/sqflite.dart" as sqflite;
 import "package:sqflite_common_ffi/sqflite_ffi.dart";
 import "package:path_provider/path_provider.dart";
@@ -29,6 +30,11 @@ class Database {
 
     _db = await sqflite.openDatabase(await _getDatabasePath());
 
+    // dark_mode table
+    await _db.execute("CREATE TABLE IF NOT EXISTS dark_mode(id INTEGER PRIMARY KEY, enabled INTEGER);");
+    List<Map<String, Object?>> row = await _db.query("dark_mode");
+    if(row.isEmpty) await _db.insert("dark_mode", { "enabled": 1 });
+
     // calorie_plan table
     await _db.execute('''
       CREATE TABLE IF NOT EXISTS calorie_plan(
@@ -38,7 +44,7 @@ class Database {
         remind_user     INTEGER
       );
     ''');
-    List<Map<String, Object?>> row = await _db.query("calorie_plan");
+    row = await _db.query("calorie_plan");
     if(row.isEmpty) await _db.insert("calorie_plan", { "tdee": 0, "calorie_deficit": 0, "remind_user": 1 });
 
     // added_foods table (history of what the user has added)
@@ -75,14 +81,36 @@ class Database {
         date      TEXT
       );
     ''');
+
+    // Saves current date to reset meal / streak
+    await _db.execute('CREATE TABLE IF NOT EXISTS meal_date(id INTEGER PRIMARY KEY, date TEXT);');
+    row = await _db.query("meal_date");
+    if(row.isEmpty) _db.insert("meal_date", { "date": DateFormat("dd-MM-yyyy").format(DateTime.now()) });
   }
 
-  Future<void> get init async { await _init(); }
+  Map<String, dynamic> _formatConditions(Map<String, dynamic>? conditions) {
+    if(conditions == null) return { "where": null, "whereArgs": null };
+
+    String where = "";
+    final List<dynamic> whereArgs = [];
+
+    for(int i = 0; i < conditions.length; i++) {
+      where += "${conditions.keys.elementAt(i)} = ?${i != conditions.length - 1 ? ' AND' : ''}";
+      whereArgs.add(conditions.values.elementAt(i));
+    }
+
+    return { "where": where, "whereArgs": whereArgs };
+  }
+
+  Future<void> get init async => await _init();
 
   Future<List<Map<String, Object?>>> select(String table, [ Map<String, dynamic>? conditions ]) async {
+    conditions = _formatConditions(conditions);
+
     final List<Map<String, Object?>> rows = await _db.query(
       table,
-      where: (conditions != null) ? "${conditions.keys.first} = ${conditions.values.first}" : null,
+      where: conditions["where"],
+      whereArgs: conditions["whereArgs"]
     );
     return rows;
   }
@@ -95,12 +123,14 @@ class Database {
 
   Future<void> insert(String table, Map<String, dynamic> data) async => await _db.insert(table, data);
 
-  Future<void> update(String table, String attribute, dynamic value, [ Map<String, String>? conditions ]) async {
+  Future<void> update(String table, String attribute, dynamic value, [ Map<String, dynamic>? conditions ]) async {
+    conditions = _formatConditions(conditions);
+
     await _db.update(
       table,
       { attribute: value },
-      where: (conditions != null) ? conditions.keys.first : null,
-      whereArgs: [ (conditions != null) ? conditions.values.first : null ]
+      where: conditions["where"],
+      whereArgs: conditions["whereArgs"]
     );
   }
 
