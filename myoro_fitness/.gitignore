@@ -9,6 +9,7 @@
 .history
 .svn/
 .fvm/
+flutter_jank_metrics*
 migrate_working_dir/
 
 # IntelliJ related
