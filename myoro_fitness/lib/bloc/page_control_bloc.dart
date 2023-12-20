@@ -1,6 +1,6 @@
 import "package:flutter_bloc/flutter_bloc.dart";
 
-enum PageControlEnum { calories, tracking }
+enum PageControlEnum { tracking, calories, settings }
 
 abstract class PageControlEvent {}
 class ChangePageEvent extends PageControlEvent {

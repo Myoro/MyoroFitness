@@ -82,8 +82,7 @@ class Database {
   Future<List<Map<String, Object?>>> select(String table, [ Map<String, dynamic>? conditions ]) async {
     final List<Map<String, Object?>> rows = await _db.query(
       table,
-      where: (conditions != null) ? conditions.keys.first : null,
-      whereArgs: (conditions != null) ? conditions.values.first : null
+      where: (conditions != null) ? "${conditions.keys.first} = ${conditions.values.first}" : null,
     );
     return rows;
   }

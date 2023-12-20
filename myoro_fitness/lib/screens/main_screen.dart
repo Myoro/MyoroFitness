@@ -2,6 +2,7 @@ import "dart:io";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/page_control_bloc.dart";
+import "package:myoro_fitness/pages/settings_page.dart";
 import "package:myoro_fitness/pages/tracking_page.dart";
 import "package:myoro_fitness/widgets/top_bars/main_screen_top_bar.dart";
 import "package:myoro_fitness/widgets/navigation_bar/footer_navigation_bar.dart";
@@ -15,6 +16,7 @@ class MainScreen extends StatelessWidget {
     switch(page) {
       case PageControlEnum.calories: return const CaloriesPage();
       case PageControlEnum.tracking: return const TrackingPage();
+      case PageControlEnum.settings: return const SettingsPage();
     }
   }
 
@@ -27,13 +29,13 @@ class MainScreen extends StatelessWidget {
           ? Column(
             children: [
               displayPage(state.currentPage),
-              const FooterNavigationBar()
+              FooterNavigationBar(selected: state.currentPage)
             ]
           )
           :
           Row(
             children: [
-              const SideNavigationBar(),
+              SideNavigationBar(selected: state.currentPage),
               displayPage(state.currentPage)
             ]
           )
