@@ -33,23 +33,31 @@ class _CaloriesPageState extends State<CaloriesPage> {
   @override
   void initState() {
     super.initState();
-    Database().get("calorie_plan").then((data) => setState(() { calorieDeficit = data["calorie_deficit"] as int; }));
+    // Since this is the initial page, we check if the tdee & calorie deficit has been set
+    Database().get("calorie_plan").then((row) {
+      calorieDeficit = row["calorie_deficit"] as int;
+
+      if(row["remind_user"] == 1 && !isModalShown) {
+        isModalShown = true;
+        if(mounted) {
+          showDialog(
+            context: context,
+            builder: (context) => const TDEEModal(mainDescription: "Would you like to set a calorie plan?")
+          );
+        }
+      }
+
+      // Checking if we need to reset the meal foods
+      Database().get("meal_date").then((row) {
+        if(row["date"] != DateFormat("dd-MM-yyyy").format(DateTime.now()))
+          Database().update("meal_date", "date", DateFormat("dd-MM-yyyy").format(DateTime.now()));
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-
-    // Since this is the initial page, we check if the tdee & calorie deficit has been set
-    Database().get("calorie_plan").then((row) {
-      if(row["remind_user"] == 1 && !isModalShown) {
-        setState(() { isModalShown = true; });
-        showDialog(
-          context: context,
-          builder: (context) => const TDEEModal(mainDescription: "Would you like to set a calorie plan?")
-        );
-      }
-    });
 
     return BlocBuilder<TDEEBloc, TDEEState>(
       builder: (context, tdeeState) {
@@ -58,38 +66,29 @@ class _CaloriesPageState extends State<CaloriesPage> {
 
         return BlocBuilder<MealBloc, MealState>(
           builder: (context, state) {
-            // Checking if we need to reset the meal foods
-            Database().get("meal_date").then((row) {
-              int getCaloriesConsumed(List<Food> foods) {
-                int resultado = 0;
-                for(final Food food in foods)
-                  if(food.calories != null)
-                    resultado += int.parse((food.calories!.value * food.serving).toStringAsFixed(0));
-                return resultado;
-              }
+            int getCaloriesConsumed(List<Food> foods) {
+              int resultado = 0;
+              for(final Food food in foods)
+                if(food.calories != null)
+                  resultado += int.parse((food.calories!.value * food.serving).toStringAsFixed(0));
+              return resultado;
+            }
 
-              if(row["date"] != DateFormat("dd-MM-yyyy").format(DateTime.now())) {
-                Database().update("meal_date", "date", DateFormat("dd-MM-yyyy").format(DateTime.now()));
-              } else {
-                breakfastCaloriesConsumed = getCaloriesConsumed(state.breakfast.foods);
-                lunchCaloriesConsumed = getCaloriesConsumed(state.lunch.foods);
-                dinnerCaloriesConsumed = getCaloriesConsumed(state.dinner.foods);
-                snacksCaloriesConsumed = getCaloriesConsumed(state.snacks.foods);
-                caloriesConsumed = breakfastCaloriesConsumed + lunchCaloriesConsumed + dinnerCaloriesConsumed + snacksCaloriesConsumed;
-              }
+            breakfastCaloriesConsumed = getCaloriesConsumed(state.breakfast.foods);
+            lunchCaloriesConsumed = getCaloriesConsumed(state.lunch.foods);
+            dinnerCaloriesConsumed = getCaloriesConsumed(state.dinner.foods);
+            snacksCaloriesConsumed = getCaloriesConsumed(state.snacks.foods);
+            caloriesConsumed = breakfastCaloriesConsumed + lunchCaloriesConsumed + dinnerCaloriesConsumed + snacksCaloriesConsumed;
 
-              if(tdeeState.calorieDeficit != null) {
-                final double calorieDeficitProportionConsumed = caloriesConsumed / tdeeState.calorieDeficit!;
+            if(tdeeState.calorieDeficit != null) {
+              final double calorieDeficitProportionConsumed = caloriesConsumed / tdeeState.calorieDeficit!;
 
-                if(Platform.isAndroid || Platform.isIOS)
-                  calorieBarWidth = (MediaQuery.of(context).size.width - 38) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
-                else
-                  calorieBarWidth = (MediaQuery.of(context).size.width - 110) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
-                calorieBarColor = calorieDeficitProportionConsumed < 1 ? theme.colorScheme.onPrimary : Colors.red;
-              }
-
-              setState(() {});
-            });
+              if(Platform.isAndroid || Platform.isIOS)
+                calorieBarWidth = (MediaQuery.of(context).size.width - 38) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
+              else
+                calorieBarWidth = (MediaQuery.of(context).size.width - 110) * ((calorieDeficitProportionConsumed < 1) ? calorieDeficitProportionConsumed : 1);
+              calorieBarColor = calorieDeficitProportionConsumed < 1 ? theme.colorScheme.onPrimary : Colors.red;
+            }
 
             return Expanded(
               child: Container(

@@ -1,10 +1,4 @@
 # Widget test TDL
-1. api.dart
-2. database.dart
-3. calories_page.dart
-4. settings_page.dart
-5. tracking_page.dart
-6. barcode_scanner_screen.dart
 7. custom_food_screen.dart
 8. food_information_screen.dart
 9. food_search_screen.dart
