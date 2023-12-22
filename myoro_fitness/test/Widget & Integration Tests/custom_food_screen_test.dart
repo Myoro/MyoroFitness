@@ -14,9 +14,7 @@ void main() {
           create: (context) => FoodSearchScreenBloc(),
           child: const MaterialApp(
             title: "CustomFoodScreen Widget Test",
-            home: Scaffold(
-              body: CustomFoodScreen()
-            )
+            home: CustomFoodScreen()
           ),
         ),
       )
