@@ -12,11 +12,9 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         title: "FoodInformationScreen Widget Test",
-        home: Scaffold(
-          body: FoodInformationScreen(
-            food: FoodConstants.food,
-            index: 0
-          )
+        home: FoodInformationScreen(
+          food: FoodConstants.food,
+          index: 0
         )
       )
     );
