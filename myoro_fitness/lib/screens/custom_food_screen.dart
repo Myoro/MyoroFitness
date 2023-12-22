@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:myoro_fitness/bloc/food_search_screen_bloc.dart";
 import "package:myoro_fitness/models/food.dart";
 import "package:myoro_fitness/models/nutrient.dart";
@@ -8,9 +9,7 @@ import "package:myoro_fitness/widgets/buttons/text_hover_button.dart";
 import "package:myoro_fitness/widgets/top_bars/custom_food_screen_top_bar.dart";
 
 class CustomFoodScreen extends StatefulWidget {
-  final FoodSearchScreenBloc bloc;
-
-  const CustomFoodScreen({ super.key, required this.bloc });
+  const CustomFoodScreen({ super.key });
 
   @override
   State<CustomFoodScreen> createState() => _CustomFoodScreenState();
@@ -71,7 +70,7 @@ class _CustomFoodScreenState extends State<CustomFoodScreen> {
 
     void addFoodToPendingMeal() {
       if(_foodNameController.text.isEmpty || _calorieController.text.isEmpty) return;
-      widget.bloc.add(FoodAddedEvent(
+      BlocProvider.of<FoodSearchScreenBloc>(context).add(FoodAddedEvent(
         Food(
           name: _foodNameController.text,
           company: "My Custom Foods",

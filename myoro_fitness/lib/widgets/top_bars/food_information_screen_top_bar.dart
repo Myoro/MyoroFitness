@@ -26,7 +26,7 @@ class FoodInformationScreenTopBar extends StatelessWidget implements PreferredSi
           ),
           const SizedBox(width: 10),
           InkWell(
-            onTap: () => Navigator.pop(context), // TODO
+            onTap: () => Navigator.pop(context),
             child: Icon(Icons.close, size: 35, color: Theme.of(context).colorScheme.onPrimary)
           )
         ]

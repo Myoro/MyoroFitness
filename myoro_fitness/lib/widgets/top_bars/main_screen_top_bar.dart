@@ -21,7 +21,7 @@ class _MainScreenTopBarState extends State<MainScreenTopBar> {
     super.initState();
     Database().select("streak_entries").then((rows) {
       if(rows.isEmpty) {
-        setState(() => streak = 0);
+        if(mounted) setState(() => streak = 0);
       } else {
         final DateTime currentDate = DateTime.now();
         int result = 0;

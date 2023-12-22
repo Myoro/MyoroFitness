@@ -21,8 +21,6 @@ class FoodSearchScreenTopBar extends StatelessWidget implements PreferredSizeWid
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    final FoodSearchScreenBloc bloc = BlocProvider.of<FoodSearchScreenBloc>(context);
-
     return AppBar(
       automaticallyImplyLeading: false,
       title: Row(
@@ -78,7 +76,7 @@ class FoodSearchScreenTopBar extends StatelessWidget implements PreferredSizeWid
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CustomFoodScreen(bloc: bloc)
+                builder: (context) => CustomFoodScreen()
               )
             ),
             customBorder: const CircleBorder(),
