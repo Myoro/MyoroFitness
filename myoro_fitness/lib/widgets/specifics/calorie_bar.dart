@@ -12,6 +12,7 @@ class CalorieBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    // TODO: Could be a better way to do this
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Row(

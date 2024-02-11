@@ -59,6 +59,7 @@ class _Foods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    // TODO: Could be a better way to do this
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
