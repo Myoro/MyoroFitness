@@ -4,6 +4,7 @@ import 'package:myoro_fitness/widgets/bodies/home_screen_body.dart';
 import 'package:myoro_fitness/widgets/buttons/button_without_feedback.dart';
 import 'package:myoro_fitness/widgets/cards/base_card.dart';
 import 'package:myoro_fitness/widgets/outputs/basic_output.dart';
+import 'package:myoro_fitness/widgets/screens/food_selection_screen.dart';
 
 /// Card used to show the foods & calories of a meal
 ///
@@ -19,7 +20,12 @@ class MealCard extends StatelessWidget {
         title: mealName,
         extraAction: ButtonWithoutFeedback(
           tooltip: 'Add Food',
-          onTap: () {}, // TODO
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const FoodSelectionScreen(),
+            ),
+          ),
           child: Icon(
             Icons.add,
             size: 30,

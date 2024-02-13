@@ -25,12 +25,16 @@ class _CaloriePlanModalState extends State<CaloriePlanModal> {
   final TextEditingController _caloriesPerDayController = TextEditingController();
   final ValueNotifier<String> _calorieDifference = ValueNotifier<String>('0');
 
-  void setCaloriePlan() => BlocProvider.of<CaloriePlanCubit>(context).setCaloriePlan(
-        CaloriePlanModel(
-          tdee: int.parse(_tdeeController.text),
-          caloriesPerDay: int.parse(_caloriesPerDayController.text),
-        ),
-      );
+  void setCaloriePlan() {
+    BlocProvider.of<CaloriePlanCubit>(context).setCaloriePlan(
+      CaloriePlanModel(
+        tdee: int.parse(_tdeeController.text),
+        caloriesPerDay: int.parse(_caloriesPerDayController.text),
+      ),
+    );
+
+    Navigator.pop(context);
+  }
 
   void setCalorieDifference(String value, String controllerChanged) {
     if (controllerChanged == 'tdee') {
