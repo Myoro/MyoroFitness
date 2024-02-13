@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myoro_fitness/blocs/dark_mode_cubit.dart';
 import 'package:myoro_fitness/widgets/inputs/base_dropdown.dart';
-import 'package:myoro_fitness/widgets/screens/calorie_plan_screen.dart';
+import 'package:myoro_fitness/widgets/modals/calorie_plan_modal.dart';
 import 'package:myoro_fitness/widgets/screens/home_screen.dart';
 
 /// [AppBar] of [HomeScreen]
@@ -32,12 +32,7 @@ class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
               {
                 'icon': Icons.food_bank,
                 'text': 'Your Calorie Plan',
-                'onTap': () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CaloriePlanScreen(),
-                      ),
-                    ),
+                'onTap': () => CaloriePlanModal.show(context),
               },
             ],
             itemBuilder: (Map<String, dynamic> item) => PopupMenuItem(

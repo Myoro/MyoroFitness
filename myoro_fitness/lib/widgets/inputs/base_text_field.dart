@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myoro_fitness/enums/size_enum.dart';
 
 /// [Widget] for all [TextField] in the application
@@ -9,6 +10,12 @@ class BaseTextField extends StatelessWidget {
   /// (Optional) width of [TextField]
   final double? width;
 
+  /// (Optional) [TextField] input formatters
+  final List<TextInputFormatter> formatters;
+
+  /// Function triggered when [TextField] is changed
+  final Function(String)? onChanged;
+
   /// Controller of [TextField]
   final TextEditingController controller;
 
@@ -17,6 +24,8 @@ class BaseTextField extends StatelessWidget {
     required this.size,
     required this.controller,
     this.width,
+    this.formatters = const [],
+    this.onChanged,
   });
 
   @override
@@ -50,7 +59,9 @@ class BaseTextField extends StatelessWidget {
       width: width,
       height: height,
       child: TextField(
+        onChanged: (value) => onChanged != null ? onChanged!(value) : {},
         controller: controller,
+        inputFormatters: formatters,
         style: textStyle,
         textAlign: TextAlign.center,
         decoration: InputDecoration(

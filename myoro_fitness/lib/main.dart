@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myoro_fitness/blocs/calorie_plan_cubit.dart';
 import 'package:myoro_fitness/blocs/dark_mode_cubit.dart';
 import 'package:myoro_fitness/database.dart';
+import 'package:myoro_fitness/models/calorie_plan_model.dart';
 import 'package:myoro_fitness/theme.dart';
 import 'package:myoro_fitness/widgets/screens/home_screen.dart';
 import 'package:window_manager/window_manager.dart';
@@ -18,10 +20,14 @@ void main() async {
 
   await Database.init();
   final bool isDarkMode = (await Database.get('dark_mode'))['enabled'] == 1 ? true : false;
+  final CaloriePlanModel caloriePlan = CaloriePlanModel.fromJSON(await Database.get('calorie_plan'));
 
   runApp(
-    BlocProvider(
-      create: (context) => DarkModeCubit(isDarkMode),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => DarkModeCubit(isDarkMode)),
+        BlocProvider(create: (context) => CaloriePlanCubit(caloriePlan)),
+      ],
       child: const App(),
     ),
   );

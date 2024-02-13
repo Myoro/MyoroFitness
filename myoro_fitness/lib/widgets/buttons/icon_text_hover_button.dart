@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Hover button that can contain a text, an icon, or both
-class IconTextHoverButton extends StatefulWidget {
+class IconTextHoverButton extends StatelessWidget {
   /// Button onTap
   final Function onTap;
 
@@ -17,6 +17,9 @@ class IconTextHoverButton extends StatefulWidget {
   /// [TextStyle] of text
   final TextStyle? textStyle;
 
+  /// If [IconTextHoverButton] is wrapped with an expanded
+  final bool expanded;
+
   /// If [IconTextHoverButton] has a border or not
   final bool bordered;
 
@@ -27,16 +30,47 @@ class IconTextHoverButton extends StatefulWidget {
     this.iconSize = 40,
     this.text,
     this.textStyle,
+    this.expanded = false,
     this.bordered = false,
   }) {
     assert(icon != null || text != null);
   }
 
   @override
-  State<IconTextHoverButton> createState() => _IconTextHoverButtonState();
+  Widget build(BuildContext context) => expanded ? Expanded(child: _widget()) : _widget();
+
+  Widget _widget() => _Widget(
+        onTap: onTap,
+        icon: icon,
+        iconSize: iconSize,
+        text: text,
+        textStyle: textStyle,
+        bordered: bordered,
+      );
 }
 
-class _IconTextHoverButtonState extends State<IconTextHoverButton> {
+class _Widget extends StatefulWidget {
+  final Function onTap;
+  final IconData? icon;
+  final double iconSize;
+  final String? text;
+  final TextStyle? textStyle;
+  final bool bordered;
+
+  const _Widget({
+    required this.onTap,
+    this.icon,
+    this.iconSize = 40,
+    this.text,
+    this.textStyle,
+    this.bordered = false,
+  });
+
+  @override
+  State<_Widget> createState() => _WidgetState();
+}
+
+class _WidgetState extends State<_Widget> {
   final ValueNotifier<bool> _hovered = ValueNotifier<bool>(false);
 
   @override

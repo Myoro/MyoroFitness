@@ -21,6 +21,16 @@ class Database {
     // Dark mode table
     await _database.execute('CREATE TABLE IF NOT EXISTS dark_mode(id INTEGER PRIMARY KEY, enabled INTEGER);');
     if ((await get('dark_mode')).isEmpty) insert('dark_mode', {'enabled': 0});
+
+    // Calorie plan table
+    await _database.execute('''
+      CREATE TABLE IF NOT EXISTS calorie_plan(
+        id               INTEGER PRIMARY KEY AUTOINCREMENT,
+        tdee             INTEGER,
+        calories_per_day INTEGER
+      );
+    ''');
+    if ((await get('calorie_plan')).isEmpty) insert('calorie_plan', {'tdee': 0, 'calories_per_day': 0});
   }
 
   static Future<void> close() async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myoro_fitness/enums/size_enum.dart';
 import 'package:myoro_fitness/widgets/inputs/base_text_field.dart';
 
@@ -16,6 +17,12 @@ class BasicTextFieldForm extends StatelessWidget {
   /// (Optional) tooltip of [BasicTextFieldForm]
   final String? tooltip;
 
+  /// (Optional) [TextField] input formatters
+  final List<TextInputFormatter> formatters;
+
+  /// Function triggered when [BaseTextField] is changed
+  final Function(String)? onChanged;
+
   /// [TextEditingController] for [BaseTextField]
   final TextEditingController controller;
 
@@ -26,6 +33,8 @@ class BasicTextFieldForm extends StatelessWidget {
     required this.controller,
     this.textFieldWidth,
     this.tooltip,
+    this.formatters = const [],
+    this.onChanged,
   });
 
   @override
@@ -72,6 +81,8 @@ class BasicTextFieldForm extends StatelessWidget {
         BaseTextField(
           size: size,
           width: textFieldWidth,
+          formatters: formatters,
+          onChanged: onChanged,
           controller: controller,
         ),
       ],
