@@ -45,4 +45,9 @@ ThemeData createTheme(bool isDarkMode) => ThemeData(
         bodyMedium: _textStyle(isDarkMode, fontSize: 20),
         bodyLarge: _textStyle(isDarkMode, fontSize: 24),
       ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: isDarkMode ? _primaryLightColor : _primaryDarkColor,
+        selectionColor: isDarkMode ? _primaryLightColor.withOpacity(0.3) : _primaryDarkColor.withOpacity(0.3),
+        selectionHandleColor: isDarkMode ? _primaryLightColor.withOpacity(0.3) : _primaryDarkColor.withOpacity(0.3),
+      ),
     );

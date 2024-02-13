@@ -9,14 +9,22 @@ class BasicOutput extends StatelessWidget {
   /// Title of [BasicOutput]
   final String title;
 
+  /// Width of title
+  final double? titleWidth;
+
   /// Output message of [BasicOutput]
   final String value;
+
+  /// Width of value
+  final double? valueWidth;
 
   const BasicOutput({
     super.key,
     required this.size,
     required this.title,
     required this.value,
+    this.titleWidth,
+    this.valueWidth,
   });
 
   @override
@@ -44,9 +52,23 @@ class BasicOutput extends StatelessWidget {
       alignment: WrapAlignment.center,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        Text(title, style: titleStyle),
+        SizedBox(
+          width: titleWidth,
+          child: Text(
+            title,
+            style: titleStyle,
+            textAlign: TextAlign.center,
+          ),
+        ),
         const SizedBox(width: 5),
-        Text(value, style: valueStyle),
+        SizedBox(
+          width: valueWidth,
+          child: Text(
+            value,
+            style: valueStyle,
+            textAlign: TextAlign.center,
+          ),
+        ),
       ],
     );
   }

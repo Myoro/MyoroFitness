@@ -5,6 +5,9 @@ class BaseCard extends StatelessWidget {
   /// Title shown below content of [BaseCard]
   final String? title;
 
+  /// Determines if [BaseCard]'s title will be centered
+  final bool titleCentered;
+
   /// [Widget] displayed at the top right of [BaseCard]
   final Widget? extraAction;
 
@@ -15,6 +18,7 @@ class BaseCard extends StatelessWidget {
     super.key,
     required this.content,
     this.title,
+    this.titleCentered = false,
     this.extraAction,
   });
 
@@ -33,6 +37,7 @@ class BaseCard extends StatelessWidget {
           children: [
             if (title != null || extraAction != null) ...[
               Row(
+                mainAxisAlignment: titleCentered ? MainAxisAlignment.center : MainAxisAlignment.start,
                 children: [
                   if (title != null) Text(title!, style: theme.textTheme.titleLarge),
                   if (extraAction != null) ...[

@@ -17,6 +17,9 @@ class IconTextHoverButton extends StatefulWidget {
   /// [TextStyle] of text
   final TextStyle? textStyle;
 
+  /// If [IconTextHoverButton] has a border or not
+  final bool bordered;
+
   IconTextHoverButton({
     super.key,
     required this.onTap,
@@ -24,6 +27,7 @@ class IconTextHoverButton extends StatefulWidget {
     this.iconSize = 40,
     this.text,
     this.textStyle,
+    this.bordered = false,
   }) {
     assert(icon != null || text != null);
   }
@@ -56,10 +60,15 @@ class _IconTextHoverButtonState extends State<IconTextHoverButton> {
           decoration: BoxDecoration(
             color: !hovered ? Colors.transparent : theme.colorScheme.onPrimary,
             borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              width: 2,
+              color: widget.bordered ? theme.colorScheme.onPrimary : Colors.transparent,
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
             child: Wrap(
+              alignment: WrapAlignment.center,
               children: [
                 if (widget.icon != null) ...[
                   Icon(
