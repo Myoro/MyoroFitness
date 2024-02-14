@@ -70,7 +70,7 @@ class FoodModel {
         case 'Total lipid (fat)':
           fats = NutrientModel.fromJSON(nutrient);
           break;
-        case 'Total Sugars':
+        case 'Total sugars':
           sugars = NutrientModel.fromJSON(nutrient);
           break;
         case 'Fiber, total dietary':

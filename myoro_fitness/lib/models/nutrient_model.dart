@@ -5,6 +5,12 @@ class NutrientModel {
   final int value;
   final UnitEnum? unit;
 
+  NutrientModel({
+    required this.name,
+    required this.value,
+    this.unit,
+  });
+
   NutrientModel.fromJSON(Map<String, dynamic> json)
       : name = json['nutrientName'],
         value = int.parse(json['nutrientNumber']),
