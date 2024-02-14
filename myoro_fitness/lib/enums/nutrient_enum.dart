@@ -1,4 +1,4 @@
-enum NutrientsEnum {
+enum NutrientEnum {
   calories('Energy'),
   protein('Protein'),
   carbohydrates('Carbohydrates, by difference'),
@@ -16,5 +16,5 @@ enum NutrientsEnum {
 
   final String apiNutrientName;
 
-  const NutrientsEnum(this.apiNutrientName);
+  const NutrientEnum(this.apiNutrientName);
 }

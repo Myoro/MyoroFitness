@@ -1,3 +1,5 @@
+import 'package:myoro_fitness/enums/unit_enum.dart';
+import 'package:myoro_fitness/helpers/conversion_helper.dart';
 import 'package:myoro_fitness/models/nutrient_model.dart';
 
 class FoodModel {
@@ -103,9 +105,14 @@ class FoodModel {
       }
     }
 
+    if(calories != null && calories.unit == UnitEnum.kilojoules) {
+      calories.value = ConversionHelper.killojoulesToCalories(calories.value);
+      calories.unit = UnitEnum.calories;
+    }
+
     return FoodModel(
       name: json['description'],
-      brand: json['brandName'],
+      brand: json['brandName'] != '' ? json['brandName'] : null,
       calories: calories,
       protein: protein,
       carbohydrates: carbohydrates,

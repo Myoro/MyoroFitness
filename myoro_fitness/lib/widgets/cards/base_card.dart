@@ -11,6 +11,9 @@ class BaseCard extends StatelessWidget {
   /// [Widget] displayed at the top right of [BaseCard]
   final Widget? extraAction;
 
+  /// Padding around the card
+  final EdgeInsets padding;
+
   /// [Widget] of [BaseCard], the contents
   final Widget content;
 
@@ -20,36 +23,40 @@ class BaseCard extends StatelessWidget {
     this.title,
     this.titleCentered = false,
     this.extraAction,
+    this.padding = EdgeInsets.zero,
   });
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.colorScheme.onPrimary.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-        child: Column(
-          children: [
-            if (title != null || extraAction != null) ...[
-              Row(
-                mainAxisAlignment: titleCentered ? MainAxisAlignment.center : MainAxisAlignment.start,
-                children: [
-                  if (title != null) Text(title!, style: theme.textTheme.titleLarge),
-                  if (extraAction != null) ...[
-                    const Spacer(),
-                    extraAction!,
+    return Padding(
+      padding: padding,
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.onPrimary.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          child: Column(
+            children: [
+              if (title != null || extraAction != null) ...[
+                Row(
+                  mainAxisAlignment: titleCentered ? MainAxisAlignment.center : MainAxisAlignment.start,
+                  children: [
+                    if (title != null) Text(title!, style: theme.textTheme.titleLarge),
+                    if (extraAction != null) ...[
+                      const Spacer(),
+                      extraAction!,
+                    ],
                   ],
-                ],
-              ),
-              const SizedBox(height: 5),
+                ),
+                const SizedBox(height: 5),
+              ],
+              content,
             ],
-            content,
-          ],
+          ),
         ),
       ),
     );

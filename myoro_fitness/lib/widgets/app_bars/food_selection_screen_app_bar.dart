@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_fitness/food_api_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myoro_fitness/blocs/food_selection_bloc/food_selection_bloc.dart';
+import 'package:myoro_fitness/blocs/food_selection_bloc/food_selection_event.dart';
 import 'package:myoro_fitness/widgets/buttons/button_without_feedback.dart';
 import 'package:myoro_fitness/widgets/inputs/food_selection_screen_search_bar.dart';
 import 'package:myoro_fitness/widgets/screens/food_selection_screen.dart';
@@ -41,7 +43,9 @@ class _FoodSelectionScreenAppBarState extends State<FoodSelectionScreenAppBar> {
             ),
           ),
           const Spacer(),
-          FoodSelectionScreenSearchBar(onChanged: (value) => FoodAPIService.searchFoods(value)),
+          FoodSelectionScreenSearchBar(
+            onChanged: (query) async => BlocProvider.of<FoodSelectionBloc>(context).add(SetFoodsEvent(query)),
+          ),
           const Spacer(),
           ButtonWithoutFeedback(
             onTap: () {}, // TODO
