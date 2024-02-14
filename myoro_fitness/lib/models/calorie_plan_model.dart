@@ -7,9 +7,9 @@ class CaloriePlanModel {
     required this.caloriesPerDay,
   });
 
-  CaloriePlanModel.fromJSON(Map<String, Object?> json)
-      : tdee = json['tdee'] as int,
-        caloriesPerDay = json['calories_per_day'] as int;
+  CaloriePlanModel.fromJSON(Map<String, dynamic> json)
+      : tdee = json['tdee'],
+        caloriesPerDay = json['calories_per_day'];
 
   Map<String, Object?> get toJSON => {
         'tdee': tdee,

@@ -17,14 +17,14 @@ class BaseTextField extends StatelessWidget {
   final Function(String)? onChanged;
 
   /// Controller of [TextField]
-  final TextEditingController controller;
+  final TextEditingController? controller;
 
   const BaseTextField({
     super.key,
     required this.size,
-    required this.controller,
     this.width,
     this.formatters = const [],
+    this.controller,
     this.onChanged,
   });
 
