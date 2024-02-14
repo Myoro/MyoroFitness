@@ -105,7 +105,7 @@ class FoodModel {
       }
     }
 
-    if(calories != null && calories.unit == UnitEnum.kilojoules) {
+    if (calories != null && calories.unit == UnitEnum.kilojoules) {
       calories.value = ConversionHelper.killojoulesToCalories(calories.value);
       calories.unit = UnitEnum.calories;
     }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoadingBar extends StatefulWidget {
-  const LoadingBar({ super.key });
+  const LoadingBar({super.key});
 
   @override
   State<LoadingBar> createState() => _LoadingBarState();
@@ -35,10 +35,7 @@ class _LoadingBarState extends State<LoadingBar> with SingleTickerProviderStateM
         height: 20,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          border: Border.all(
-            width: 2,
-            color: onPrimary
-          ),
+          border: Border.all(width: 2, color: onPrimary),
         ),
         child: Align(
           alignment: Alignment.centerLeft,

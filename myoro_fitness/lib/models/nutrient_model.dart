@@ -23,9 +23,10 @@ class NutrientModel {
     String? name,
     int? value,
     UnitEnum? unit,
-  }) => NutrientModel(
-    name: name ?? this.name,
-    value: value ?? this.value,
-    unit: unit ?? this.unit,
-  );
+  }) =>
+      NutrientModel(
+        name: name ?? this.name,
+        value: value ?? this.value,
+        unit: unit ?? this.unit,
+      );
 }

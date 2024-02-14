@@ -13,16 +13,16 @@ class FoodSelectionScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
-    builder: (context, state) => BaseBody(
-      children: state.foods != null
-        ? List.generate(
-          state.foods!.length,
-          (index) => FoodCard(food: state.foods![index]),
-        )
-        : [
-          SizedBox(height: MediaQuery.of(context).size.height / 2 - 60),
-          const LoadingBar(),
-        ],
-    ),
-  );
+        builder: (context, state) => BaseBody(
+          children: state.foods != null
+              ? List.generate(
+                  state.foods!.length,
+                  (index) => FoodCard(food: state.foods![index]),
+                )
+              : [
+                  SizedBox(height: MediaQuery.of(context).size.height / 2 - 60),
+                  const LoadingBar(),
+                ],
+        ),
+      );
 }
