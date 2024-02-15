@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myoro_fitness/enums/meal_enum.dart';
 import 'package:myoro_fitness/widgets/bodies/base_body.dart';
 import 'package:myoro_fitness/widgets/cards/meal_card.dart';
 import 'package:myoro_fitness/widgets/screens/home_screen.dart';
@@ -15,13 +16,13 @@ class HomeScreenBody extends StatelessWidget {
         children: [
           CalorieBar(),
           SizedBox(height: 10),
-          MealCard(mealName: 'Breakfast'),
+          MealCard(meal: MealEnum.breakfast),
           SizedBox(height: 10),
-          MealCard(mealName: 'Lunch'),
+          MealCard(meal: MealEnum.lunch),
           SizedBox(height: 10),
-          MealCard(mealName: 'Dinner'),
+          MealCard(meal: MealEnum.dinner),
           SizedBox(height: 10),
-          MealCard(mealName: 'Snacks'),
+          MealCard(meal: MealEnum.snacks),
         ],
       );
 }

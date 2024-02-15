@@ -9,5 +9,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       emit(state.copyWith(foods: null));
       emit(state.copyWith(foods: await FoodAPIService.searchFoods(event.query)));
     });
+
+    on<SetMealEvent>((event, emit) async => emit(state.copyWith(foods: [], meal: event.meal)));
   }
 }

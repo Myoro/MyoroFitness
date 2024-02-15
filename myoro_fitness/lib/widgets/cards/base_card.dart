@@ -45,7 +45,16 @@ class BaseCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: titleCentered ? MainAxisAlignment.center : MainAxisAlignment.start,
                   children: [
-                    if (title != null) Text(title!, style: theme.textTheme.titleLarge),
+                    if (title != null)
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 106 > 0 ? MediaQuery.of(context).size.width - 106 : 100,
+                        child: Text(
+                          title!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleLarge,
+                        ),
+                      ),
                     if (extraAction != null) ...[
                       const Spacer(),
                       extraAction!,

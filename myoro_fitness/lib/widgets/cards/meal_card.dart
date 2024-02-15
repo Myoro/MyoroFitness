@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myoro_fitness/blocs/food_selection_bloc/food_selection_bloc.dart';
+import 'package:myoro_fitness/blocs/food_selection_bloc/food_selection_event.dart';
+import 'package:myoro_fitness/enums/meal_enum.dart';
 import 'package:myoro_fitness/enums/size_enum.dart';
 import 'package:myoro_fitness/widgets/bodies/home_screen_body.dart';
 import 'package:myoro_fitness/widgets/buttons/button_without_feedback.dart';
@@ -11,21 +15,27 @@ import 'package:myoro_fitness/widgets/screens/food_selection_screen.dart';
 /// Used in [HomeScreenBody]
 class MealCard extends StatelessWidget {
   /// Breakfast, Lunch, Dinner, or Snacks
-  final String mealName;
+  final MealEnum meal;
 
-  const MealCard({super.key, required this.mealName});
+  const MealCard({super.key, required this.meal});
+
+  void addFood(BuildContext context) {
+    BlocProvider.of<FoodSelectionBloc>(context).add(SetMealEvent(meal));
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const FoodSelectionScreen(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) => BaseCard(
-        title: mealName,
+        title: meal.name,
         extraAction: ButtonWithoutFeedback(
           tooltip: 'Add Food',
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const FoodSelectionScreen(),
-            ),
-          ),
+          onTap: () => addFood(context),
           child: Icon(
             Icons.add,
             size: 30,
@@ -81,7 +91,7 @@ class _Foods extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(
-                    width: screenWidth > 570 ? 400 : 150,
+                    width: screenWidth > 580 ? 400 : 120,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

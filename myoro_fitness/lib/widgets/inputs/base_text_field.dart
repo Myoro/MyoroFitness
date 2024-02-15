@@ -13,6 +13,9 @@ class BaseTextField extends StatelessWidget {
   /// (Optional) [TextField] input formatters
   final List<TextInputFormatter> formatters;
 
+  /// (Optional) Toggle the underline border
+  final bool bordered;
+
   /// Function triggered when [TextField] is changed
   final Function(String)? onChanged;
 
@@ -22,6 +25,7 @@ class BaseTextField extends StatelessWidget {
   const BaseTextField({
     super.key,
     required this.size,
+    this.bordered = true,
     this.width,
     this.formatters = const [],
     this.controller,
@@ -65,8 +69,8 @@ class BaseTextField extends StatelessWidget {
         style: textStyle,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          focusedBorder: border,
-          enabledBorder: border,
+          focusedBorder: bordered ? border : InputBorder.none,
+          enabledBorder: bordered ? border : InputBorder.none,
           contentPadding: const EdgeInsets.only(bottom: 5),
         ),
       ),
