@@ -16,7 +16,11 @@ class FoodAPIService {
     if (response.statusCode != 200) return [];
 
     final List<FoodModel> foods = [];
-    for (final Map<String, dynamic> json in jsonDecode(response.body)['foods']) foods.add(FoodModel.fromJSON(json));
+    // for (final Map<String, dynamic> json in jsonDecode(response.body)['foods']) foods.add(FoodModel.fromJSON(json));
+    for (final Map<String, dynamic> json in jsonDecode(response.body)['foods']) {
+      print(json['servingSizeUnit']);
+      foods.add(FoodModel.fromJSON(json));
+    }
 
     return foods;
   }

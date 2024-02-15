@@ -16,10 +16,12 @@ class FoodInformationCard extends StatefulWidget {
 
 class _FoodInformationCardState extends State<FoodInformationCard> {
   final TextEditingController _calorieController = TextEditingController();
+  final TextEditingController _servingController = TextEditingController();
 
   @override
   void dispose() {
     _calorieController.dispose();
+    _servingController.dispose();
     super.dispose();
   }
 
@@ -34,7 +36,8 @@ class _FoodInformationCardState extends State<FoodInformationCard> {
           if (widget.food.calories != null)
             CalorieInput(
               calories: widget.food.calories!,
-              controller: _calorieController,
+              calorieController: _calorieController,
+              servingController: _servingController,
             ),
           const SizedBox(height: 10),
           NutrientListOutput(availableNutrients: widget.food.availableNutrients),

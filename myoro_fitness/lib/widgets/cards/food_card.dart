@@ -50,7 +50,7 @@ class FoodCard extends StatelessWidget {
             const Spacer(),
             if (food.calories != null)
               Text(
-                '${food.calories!.value} ${UnitEnum.calories.notation.toLowerCase()}',
+                '${food.calories!.value.toInt()} ${UnitEnum.calories.notation.toLowerCase()}',
                 style: textTheme.bodyMedium,
               ),
           ],

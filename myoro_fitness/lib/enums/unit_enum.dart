@@ -1,4 +1,5 @@
 enum UnitEnum {
+  noUnit(''),
   grams('G'),
   milligrams('MG'),
   calories('KCAL'),

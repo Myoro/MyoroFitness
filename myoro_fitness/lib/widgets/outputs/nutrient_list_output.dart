@@ -35,7 +35,7 @@ class NutrientListOutput extends StatelessWidget {
               SizedBox(
                 width: 100,
                 child: Text(
-                  '${nutrient.value}${nutrient.unit != null ? ' ${nutrient.unit!.notation}' : ''}',
+                  '${nutrient.value.toInt()}${nutrient.unit != null ? ' ${nutrient.unit!.notation}' : ''}',
                   style: textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),

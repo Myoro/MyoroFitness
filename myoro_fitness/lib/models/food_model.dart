@@ -5,6 +5,7 @@ import 'package:myoro_fitness/models/nutrient_model.dart';
 class FoodModel {
   final String name;
   final String? brand;
+  final NutrientModel? serving;
   final NutrientModel? calories;
   final NutrientModel? protein;
   final NutrientModel? carbohydrates;
@@ -23,6 +24,7 @@ class FoodModel {
 
   FoodModel({
     required this.name,
+    this.serving,
     this.brand,
     this.calories,
     this.protein,
@@ -106,13 +108,33 @@ class FoodModel {
     }
 
     if (calories != null && calories.unit == UnitEnum.kilojoules) {
-      calories.value = ConversionHelper.killojoulesToCalories(calories.value);
+      calories.value = ConversionHelper.killojoulesToCalories(calories.value).toDouble();
       calories.unit = UnitEnum.calories;
     }
 
     return FoodModel(
       name: json['description'],
       brand: json['brandName'] != '' ? json['brandName'] : null,
+      serving: json['servingSize'] != null
+          ? NutrientModel(
+              name: 'Serving',
+              value: json['servingSize'],
+              unit: UnitEnum.values.firstWhere(
+                (element) => element.notation.toLowerCase() == json['servingSizeUnit'].toLowerCase(),
+                orElse: () {
+                  if (json['servingSizeUnit'] == 'GRM') {
+                    return UnitEnum.grams;
+                  } else {
+                    return UnitEnum.noUnit;
+                  }
+                },
+              ),
+            )
+          : NutrientModel(
+              name: 'Serving',
+              value: 1,
+              unit: UnitEnum.noUnit,
+            ),
       calories: calories,
       protein: protein,
       carbohydrates: carbohydrates,
