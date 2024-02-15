@@ -130,4 +130,25 @@ class FoodModel {
       ingredients: json['ingredients'],
     );
   }
+
+  List<NutrientModel> get availableNutrients {
+    final List<NutrientModel> result = [];
+
+    if (calories != null) result.add(calories!);
+    if (protein != null) result.add(protein!);
+    if (carbohydrates != null) result.add(carbohydrates!);
+    if (fats != null) result.add(fats!);
+    if (transFats != null) result.add(transFats!);
+    if (saturatedFats != null) result.add(saturatedFats!);
+    if (sugars != null) result.add(sugars!);
+    if (fibers != null) result.add(fibers!);
+    if (calcium != null) result.add(calcium!);
+    if (iron != null) result.add(iron!);
+    if (sodium != null) result.add(sodium!);
+    if (vitaminA != null) result.add(vitaminA!);
+    if (vitaminC != null) result.add(vitaminC!);
+    if (cholesterol != null) result.add(cholesterol!);
+
+    return result;
+  }
 }

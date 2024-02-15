@@ -19,6 +19,9 @@ class BaseTextField extends StatelessWidget {
   /// Function triggered when [TextField] is changed
   final Function(String)? onChanged;
 
+  /// (Optional) Padding of the text within the [TextField]
+  final EdgeInsets? padding;
+
   /// Controller of [TextField]
   final TextEditingController? controller;
 
@@ -30,6 +33,7 @@ class BaseTextField extends StatelessWidget {
     this.formatters = const [],
     this.controller,
     this.onChanged,
+    this.padding,
   });
 
   @override
@@ -71,7 +75,7 @@ class BaseTextField extends StatelessWidget {
         decoration: InputDecoration(
           focusedBorder: bordered ? border : InputBorder.none,
           enabledBorder: bordered ? border : InputBorder.none,
-          contentPadding: const EdgeInsets.only(bottom: 5),
+          contentPadding: padding ?? const EdgeInsets.only(bottom: 5),
         ),
       ),
     );

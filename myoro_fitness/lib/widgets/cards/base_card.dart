@@ -53,6 +53,7 @@ class BaseCard extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.titleLarge,
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     if (extraAction != null) ...[

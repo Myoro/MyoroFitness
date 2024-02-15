@@ -1,3 +1,4 @@
+import 'package:myoro_fitness/enums/nutrient_enum.dart';
 import 'package:myoro_fitness/enums/unit_enum.dart';
 
 class NutrientModel {
@@ -15,7 +16,7 @@ class NutrientModel {
   set unit(UnitEnum? unit) => this.unit = unit;
 
   NutrientModel.fromJSON(Map<String, dynamic> json)
-      : name = json['nutrientName'],
+      : name = NutrientEnum.values.firstWhere((element) => element.apiNutrientName == json['nutrientName']).title,
         value = int.parse(json['nutrientNumber']),
         unit = json['unitName'] != null ? UnitEnum.values.firstWhere((element) => element.notation == json['unitName']) : null;
 

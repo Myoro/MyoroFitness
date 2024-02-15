@@ -1,51 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_fitness/enums/size_enum.dart';
 import 'package:myoro_fitness/models/food_model.dart';
-import 'package:myoro_fitness/widgets/buttons/icon_button_without_feedback.dart';
 import 'package:myoro_fitness/widgets/cards/base_card.dart';
-import 'package:myoro_fitness/widgets/inputs/base_text_field.dart';
+import 'package:myoro_fitness/widgets/inputs/calorie_input.dart';
+import 'package:myoro_fitness/widgets/outputs/nutrient_list_output.dart';
 
 /// Calories and nutrients of the selected [FoodModel] to be added
-class FoodInformationCard extends StatelessWidget {
+class FoodInformationCard extends StatefulWidget {
   final FoodModel food;
 
   const FoodInformationCard({super.key, required this.food});
 
   @override
-  Widget build(BuildContext context) => BaseCard(
-        title: 'Information about ${food.name}',
-        content: const Column(
-          children: [
-            _CalorieInput(),
-          ],
-        ),
-      );
+  State<FoodInformationCard> createState() => _FoodInformationCardState();
 }
 
-class _CalorieInput extends StatefulWidget {
-  const _CalorieInput();
+class _FoodInformationCardState extends State<FoodInformationCard> {
+  final TextEditingController _calorieController = TextEditingController();
 
   @override
-  State<_CalorieInput> createState() => _CalorieInputState();
-}
+  void dispose() {
+    _calorieController.dispose();
+    super.dispose();
+  }
 
-class _CalorieInputState extends State<_CalorieInput> {
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
+    return BaseCard(
+      titleCentered: true,
+      content: Column(
         children: [
-          IconButtonWithoutFeedback(
-            onTap: () {},
-            icon: Icons.arrow_drop_up,
-          ),
-          const BaseTextField(
-            size: SizeEnum.medium,
-            width: 80,
-            bordered: false,
-          ),
-          IconButtonWithoutFeedback(
-            onTap: () {},
-            icon: Icons.arrow_drop_down,
-          ),
+          if (widget.food.calories != null)
+            CalorieInput(
+              calories: widget.food.calories!,
+              controller: _calorieController,
+            ),
+          const SizedBox(height: 10),
+          NutrientListOutput(availableNutrients: widget.food.availableNutrients),
+          if (widget.food.ingredients != null) ...[
+            const SizedBox(height: 20),
+            Text(
+              'Ingredients',
+              style: textTheme.titleMedium,
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 350),
+              child: Text(
+                widget.food.ingredients!,
+                textAlign: TextAlign.center,
+                style: textTheme.bodySmall,
+              ),
+            ),
+          ],
+          const SizedBox(height: 10),
         ],
-      );
+      ),
+    );
+  }
 }
