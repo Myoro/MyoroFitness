@@ -1,33 +1,23 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-/// Button that accepts a widget
 class ButtonWithoutFeedback extends StatelessWidget {
-  /// onTap of [ButtonWithoutFeedback]
-  final Function onTap;
-
-  /// [Widget] of [ButtonWithoutFeedback]
+  final dynamic Function() onTap;
   final Widget child;
-
-  /// [Tooltip] message of [ButtonWithoutFeedback]
-  final String tooltip;
 
   const ButtonWithoutFeedback({
     super.key,
     required this.onTap,
-    required this.child,
-    this.tooltip = '',
+    required this.child
   });
 
   @override
-  Widget build(BuildContext context) => Tooltip(
-        message: tooltip,
-        child: InkWell(
-          focusColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () => onTap(),
-          child: child,
-        ),
-      );
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: child
+      ),
+    );
+  }
 }

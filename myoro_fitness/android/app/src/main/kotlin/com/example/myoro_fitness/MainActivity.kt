@@ -1,5 +1,6 @@
-package com.myoro.myoro_fitness
+package com.example.myoro_fitness
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity()
+class MainActivity: FlutterActivity() {
+}
